@@ -1,3 +1,5 @@
+"use client";
+
 import { useRef } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Link from "next/link";
@@ -18,19 +20,19 @@ const Header = () => {
           <Link href="/" className="nav-link">
             Home
           </Link>
-          <Link href="/About" className="nav-link">
+          <Link href="/about" className="nav-link">
             About
           </Link>
-          <Link href="/Contact" className="nav-link">
+          <Link href="/contact" className="nav-link">
             Contact
           </Link>
-          <Link href="/BlogPage" className="nav-link">
+          <Link href="/blog" className="nav-link">
             Blog
           </Link>
-          <Link href="/Assignment3" className="nav-link">
-            Assignment 3
+          <Link href="/store" className="nav-link">
+            Store
           </Link>
-          <Link href="/Profile">
+          <Link href="/profile">
             <img
               src="src/assets/user-images/serious-man-thinking_1149-1328.avif"
               alt=""
