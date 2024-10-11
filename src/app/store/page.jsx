@@ -31,7 +31,7 @@ const Store = () => {
       <main className="main">
         <div className="product-list products-wrapper">
           {products.map((product) => (
-            <Link href={`#`} key={product.id}>
+            <Link href={`/store/${product.id}`} key={product.id}>
               <ProductCard
                 title={product.title}
                 price={product.price}
