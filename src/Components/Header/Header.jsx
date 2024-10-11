@@ -34,7 +34,7 @@ const Header = () => {
           </Link>
           <Link href="/profile">
             <img
-              src="src/assets/user-images/serious-man-thinking_1149-1328.avif"
+              src="/assets/serious-man-thinking_1149-1328.avif"
               alt=""
               className="profile-image"
             />

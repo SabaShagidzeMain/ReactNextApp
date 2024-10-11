@@ -1,0 +1,72 @@
+.contact-main {
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contactWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: 90%;
+}
+
+.contactWrapper form {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  height: 100%;
+  width: 100%;
+  border-radius: 20px;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+input[type="text"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+.input-container {
+  width: 100%;
+}
+
+input[type="submit"] {
+  background-color: #272727;
+  color: white;
+  padding: 12px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 12rem;
+}
+
+#textAr {
+  text-align: start;
+  min-height: 5rem;
+  max-height: 12rem;
+  width: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+  .contactWrapper form {
+    justify-content: space-between;
+    align-items: center;
+  }
+  #textAr {
+    max-height: 6rem;
+  }
+}

@@ -1,0 +1,147 @@
+.user-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-wrapper {
+  display: flex;
+  height: 80%;
+  gap: 2rem;
+}
+
+.user-picture-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  background-color: #fff;
+  width: 20rem;
+  border-radius: 20px;
+}
+
+.user-image {
+  width: 12rem;
+  border-radius: 50%;
+  border: 2px solid blue;
+}
+
+.user-header {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.user-handle {
+  font-weight: bold;
+}
+
+.user-text {
+  font-size: 0.7rem;
+}
+
+.user-button {
+  width: 12rem;
+  height: 3rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.user-text span {
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+}
+
+.user-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  justify-content: center;
+  padding: 0 2rem;
+  border-radius: 20px;
+  gap: 1rem;
+}
+
+.user-info-inner {
+  display: flex;
+  gap: 1rem;
+}
+
+label {
+  font-size: 0.9rem;
+}
+
+@media only screen and (max-width: 1024px) {
+  .user-wrapper {
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .user-picture-wrapper {
+    flex-direction: row;
+    padding: 0.5rem;
+    gap: 1rem;
+    width: 90%;
+    border-radius: 5px;
+  }
+
+  .user-header {
+    font-size: 0.8rem;
+  }
+
+  .user-handle {
+    font-size: 0.6rem;
+  }
+
+  .user-image {
+    width: 40px;
+    height: 40px;
+  }
+
+  .user-text {
+    display: none;
+  }
+
+  .user-button {
+    width: 6rem;
+    height: 2rem;
+    font-size: 0.6rem;
+  }
+
+  .user-info-wrapper {
+    width: 90%;
+    height: 80%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .user-info-col {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  label {
+    font-size: 0.7rem;
+  }
+
+  input {
+    height: 2rem;
+    font-size: 0.7rem;
+    text-align: center;
+  }
+}
