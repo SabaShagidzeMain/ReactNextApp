@@ -1,0 +1,138 @@
+.productcard {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: 10rem;
+  padding: 0.5rem;
+  gap: 0.5rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  background-image: linear-gradient(-120deg, #272727 65%, #fff);
+}
+
+.productcard:hover {
+  box-shadow: 0 0 15px #fff;
+}
+
+.productcard-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #fff;
+}
+
+.productcard-image-wrapper {
+  height: 100%;
+  width: 100%;
+  border-radius: 20px;
+}
+
+.productcard-image {
+  background-color: #fff;
+  border-radius: 20px;
+  width: 10rem;
+  height: 100%;
+}
+
+.productcard-header {
+  font-size: 0.9rem;
+}
+
+.productcard-info {
+  font-size: 0.6rem;
+}
+
+.productcard-price {
+  font-size: 0.6rem;
+}
+
+.productcard-button {
+  width: fit-content;
+  cursor: pointer;
+  background: transparent;
+  font-size: 1.2rem;
+  text-align: left;
+  border: none;
+  color: #fff;
+  transition: all ease-in-out 0.3s;
+}
+
+.productcard-button:hover {
+  transform: scale(1.2);
+}
+
+.productcard-button span {
+  font-size: 0.7rem;
+}
+
+.productcard-bot-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media only screen and (max-width: 1024px) {
+  .productcard {
+    height: fit-content;
+    padding: 0.2rem;
+    padding: 0.5rem;
+  }
+  .productcard-image-wrapper {
+    height: 4rem;
+    width: 4rem;
+  }
+  .productcard-header {
+    font-size: 0.7rem;
+  }
+  .productcard-info {
+    font-size: 0.5rem;
+  }
+  .productcard-bot-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .productcard-button {
+    border-radius: 20px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .productcard {
+    width: 10rem;
+    height: 6rem;
+    flex-direction: column;
+  }
+  .productcard-header {
+    display: none;
+  }
+  .productcard-info {
+    display: none;
+  }
+  .productcard-wrapper {
+    width: 90%;
+  }
+  .productcard-bot-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .productcard-image-wrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: #fff;
+  }
+  .productcard-price {
+    font-size: 0.8rem;
+  }
+  .productcard-button {
+    font-size: 1.6rem;
+  }
+  .productcard-image {
+    width: 4rem;
+  }
+}
