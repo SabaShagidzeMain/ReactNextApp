@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -32,6 +32,10 @@ export default function PostDetail({ params }) {
 
   if (!product) {
     return <div>Product not found.</div>;
+  }
+
+  if (params.id > 30) {
+    return <div>Product Not Found</div>;
   }
 
   return (

@@ -8,19 +8,33 @@
 
 .blog-content {
   background: #fff;
+  border-radius: 20px;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
+.loading-screen {
+  background: #272727;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 .spinner {
-  border: 8px solid #f3f3f3;
-  border-top: 8px solid #3498db;
+  border: 8px solid #600d10;
+  border-top: 8px solid #fff;
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  animation: spin 0.2s linear infinite;
+  animation: spin 0.4s linear infinite;
+}
+
+.blog-link {
+  color: #600d10;
+  text-decoration: none;
 }
 
 @keyframes spin {

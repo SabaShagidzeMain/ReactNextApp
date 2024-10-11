@@ -7,9 +7,11 @@
   padding: 0 2rem;
 }
 
-.header h3 {
+.header h2 {
   color: #eaeaea;
   cursor: pointer;
+  font-weight: bold;
+  font-size: 1.7rem;
 }
 
 nav a {
@@ -30,9 +32,10 @@ nav a:hover {
   border: none;
   outline: none;
   display: none;
-  font-size: 1.8rem;
+  font-size: 2rem;
   background-color: transparent;
   color: #eaeaea;
+  font-weight: bold;
 }
 
 .link-wrapper {

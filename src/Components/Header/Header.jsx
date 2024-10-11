@@ -14,7 +14,7 @@ const Header = () => {
 
   return (
     <header className="header">
-      <h3>Logo</h3>
+      <h2>Game Store</h2>
       <nav ref={navRef}>
         <div className="link-wrapper">
           <Link href="/" className="nav-link">

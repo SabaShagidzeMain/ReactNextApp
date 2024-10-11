@@ -16,7 +16,9 @@ const Store = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const result = await axios.get("https://dummyjson.com/products");
+        const result = await axios.get(
+          "https://dummyjson.com/products?limit=30"
+        );
         setProducts(result.data.products);
       } catch (error) {
         console.error("Error Fetching Products", error);
@@ -46,7 +48,7 @@ const Store = () => {
       <main className="main">
         <div className="product-list products-wrapper">
           {products.map((product) => (
-            <Link href={`/store/${product.id}`} key={product.id}>
+            <Link className="product-link" href={`/store/${product.id}`} key={product.id}>
               <ProductCard
                 title={product.title}
                 price={product.price}

@@ -44,7 +44,7 @@ export default function Blog() {
               <div className="blog-content">
                 <h2>{post.title}</h2>
                 <p>{post.body}</p>
-                <Link className="Link" href={`/blog/${post.id}`}>
+                <Link className="blog-link Link" href={`/blog/${post.id}`}>
                   Open Post
                 </Link>
               </div>
