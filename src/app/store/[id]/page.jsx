@@ -1,33 +1,37 @@
-/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
+"use client"
 
+import { useEffect, useState } from "react";
 import axios from "axios";
 import "./singleproduct.css";
 
-// Function to fetch content for a specific product
-async function fetchContent(id) {
-  const res = await axios.get(`https://dummyjson.com/products/${id}`);
-  return res.data;
-}
+export default function PostDetail({ params }) {
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-// Function to generate all possible product IDs for static generation
-export async function generateStaticParams() {
-  // Fetch the list of all products (or just their IDs)
-  const res = await axios.get("https://dummyjson.com/products");
-  const products = res.data.products; // Assuming the products are returned in an array
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const res = await axios.get(
+          `https://dummyjson.com/products/${params.id}`
+        );
+        setProduct(res.data);
+      } catch (error) {
+        console.error("Error fetching the product:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // Return an array of params containing all product ids
-  return products.map((product) => ({
-    id: product.id.toString(), // Convert to string if necessary
-  }));
-}
+    fetchContent();
+  }, [params.id]);
 
-// Component to display product details
-export default async function PostDetail({ params }) {
-  const product = await fetchContent(params.id);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (!product) {
-    return <div>Loading...</div>;
+    return <div>Product not found.</div>;
   }
 
   return (
@@ -35,7 +39,6 @@ export default async function PostDetail({ params }) {
       <h1>{product.brand}</h1>
       <div className="inner-container">
         <div className="for-image">
-          {/* Assuming product.images is an array */}
           {product.images.map((image, index) => (
             <img key={index} src={image} alt={`product-${index}`} />
           ))}
