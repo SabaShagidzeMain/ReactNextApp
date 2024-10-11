@@ -8,16 +8,31 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-const Blog = () => {
+export default function Blog() {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getPosts = () => {
-    axios.get("https://dummyjson.com/posts").then((result) => {
-      setPosts(result.data.posts);
-    });
+    try {
+      axios.get("https://dummyjson.com/posts").then((result) => {
+        setPosts(result.data.posts);
+      });
+    } catch {
+      console.error("Blogs Error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(getPosts, []);
+
+  if (loading) {
+    return (
+      <div className="loading-screen">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -40,6 +55,4 @@ const Blog = () => {
       <Footer />
     </>
   );
-};
-
-export default Blog;
+}

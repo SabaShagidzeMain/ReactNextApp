@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 
 const Store = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -19,11 +20,25 @@ const Store = () => {
         setProducts(result.data.products);
       } catch (error) {
         console.error("Error Fetching Products", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchProducts();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="loading-screen">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
+
+  if (!products) {
+    return <div>Products Not Found.</div>;
+  }
 
   return (
     <>
