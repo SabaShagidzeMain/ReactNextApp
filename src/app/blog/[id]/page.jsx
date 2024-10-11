@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
 "use client";
 
+import Header from "../../../Components/Header/Header";
+import Footer from "../../../Components/Footer/Footer";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./singleblog.css";
@@ -37,11 +40,15 @@ export default function PostDetail({ params }) {
   }
 
   return (
-    <div className="main-container">
-      <div className="post-container">
-        <h1 className="post-title">{post.title}</h1>
-        <p className="post-body">{post.body}</p>
-      </div>
-    </div>
+    <>
+      <Header />
+      <main className="main blogpage-main">
+        <div className="post-container">
+          <h1 className="post-title">{post.title}</h1>
+          <p className="post-body">{post.body}</p>
+        </div>
+      </main>
+      <Footer />
+    </>
   );
 }

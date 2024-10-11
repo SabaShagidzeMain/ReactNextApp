@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
 "use client";
 
+import Header from "../../../Components/Header/Header";
+import Footer from "../../../Components/Footer/Footer";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./singleproduct.css";
@@ -39,25 +42,36 @@ export default function PostDetail({ params }) {
   }
 
   return (
-    <div className="main-card">
-      <h1>{product.brand}</h1>
-      <div className="inner-container">
-        <div className="for-image">
-          {product.images.map((image, index) => (
-            <img key={index} src={image} alt={`product-${index}`} />
-          ))}
+    <>
+      <Header />
+      <main className="main main-card">
+        <div className="singleproduct-inner">
+          <h1>{product.brand}</h1>
+          <div className="inner-container">
+            <div className="product-image-wrapper">
+              {product.images.map((image, index) => (
+                <img
+                  className="product-image"
+                  key={index}
+                  src={image}
+                  alt={`product-${index}`}
+                />
+              ))}
+            </div>
+            <div className="info-container">
+              <h2>Rating: {product.rating}⭐</h2>
+              <h1 className="title">{product.title}</h1>
+              <p className="availability">
+                {product.stock > 0 ? "In Stock" : "Out of Stock"}
+              </p>
+              <h3>Price: {product.price}$</h3>
+              <p className="description">{product.description}</p>
+              <button className="button">Add To The Cart</button>
+            </div>
+          </div>
         </div>
-        <div className="info-container">
-          <h2>Rating: {product.rating}⭐</h2>
-          <h1 className="title">{product.title}</h1>
-          <p className="availability">
-            {product.stock > 0 ? "In Stock" : "Out of Stock"}
-          </p>
-          <h3>Price: {product.price}$</h3>
-          <p className="description">{product.description}</p>
-          <button className="button">Add To The Cart</button>
-        </div>
-      </div>
-    </div>
+      </main>
+      <Footer />
+    </>
   );
 }

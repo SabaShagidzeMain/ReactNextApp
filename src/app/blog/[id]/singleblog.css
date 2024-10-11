@@ -1,0 +1,16 @@
+.blogpage-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.post-container {
+  padding: 1rem;
+  background: #fff;
+  height: 20rem;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
