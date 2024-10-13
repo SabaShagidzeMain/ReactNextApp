@@ -7,7 +7,17 @@ import ProductCard from "../../Components/ProductCard/ProductCard";
 
 import axios from "axios";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+
+const debounce = (func, delay) => {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+};
 
 const Store = () => {
   const [products, setProducts] = useState([]);
@@ -30,10 +40,12 @@ const Store = () => {
     }
   };
 
+  const debouncedFetchProducts = useCallback(debounce(fetchProducts, 300), []);
+
   const handleInputChange = (e) => {
     const query = e.target.value;
     setSearchTerm(query);
-    fetchProducts(query);
+    debouncedFetchProducts(query);
   };
 
   const handleSortChange = (e) => {
