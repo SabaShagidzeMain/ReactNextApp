@@ -88,7 +88,7 @@ const Store = () => {
   return (
     <>
       <Header />
-      <main className="main">
+      <main className="main store-main">
         <div className="search-sort-wrapper">
           <div className="search-wrapper products-search">
             <input
