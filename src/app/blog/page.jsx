@@ -1,33 +1,17 @@
-/* eslint-disable react/prop-types */
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
+import Link from "next/link";
+import { fetchPosts } from "@/Utilities/fetchPosts";
 import "./blog.css";
 
-import axios from "axios";
-import Link from "next/link";
+export default async function Blog() {
+  const posts = await fetchPosts();
 
-export async function getServerSideProps() {
-  let posts = [];
-  try {
-    const response = await axios.get("https://dummyjson.com/posts");
-    posts = response.data.posts || [];
-  } catch (error) {
-    console.error("Error Fetching Blog Posts:", error);
-  }
-
-  return {
-    props: {
-      posts,
-    },
-  };
-}
-
-export default function Blog({ posts }) {
   if (!posts || posts.length === 0) {
     return (
       <div className="loading-screen">
         <div className="spinner"></div>
-        <p>No Blog Posts Found</p>
+        <p>No blog posts found.</p>
       </div>
     );
   }
