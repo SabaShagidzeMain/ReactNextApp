@@ -1,35 +1,14 @@
 /* eslint-disable react/prop-types */
-"use client";
-
 import Header from "../../../Components/Header/Header";
 import Footer from "../../../Components/Footer/Footer";
+import { fetchPost } from "@/Utilities/fetchPost";
 
-import { useEffect, useState } from "react";
-import axios from "axios";
 import "./singleblog.css";
 
-export default function PostDetail({ params }) {
-  const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(true);
+export default async function PostDetail({ params }) {
+  const { id } = params;
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const res = await axios.get(`https://dummyjson.com/posts/${params.id}`);
-        setPost(res.data);
-      } catch (error) {
-        console.error("Error fetching the post:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPost();
-  }, [params.id]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const post = await fetchPost(id);
 
   if (!post) {
     return <div>Post not found.</div>;
