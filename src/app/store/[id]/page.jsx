@@ -1,37 +1,14 @@
 /* eslint-disable react/prop-types */
-"use client";
-
 import Header from "../../../Components/Header/Header";
 import Footer from "../../../Components/Footer/Footer";
 
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { fetchProduct } from "@/Utilities/fetchProduct";
 import "./singleproduct.css";
 
-export default function PostDetail({ params }) {
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
+export default async function PostDetail({ params }) {
+  const { id } = params;
 
-  useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        const res = await axios.get(
-          `https://dummyjson.com/products/${params.id}`
-        );
-        setProduct(res.data);
-      } catch (error) {
-        console.error("Error fetching the product:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchContent();
-  }, [params.id]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const product = await fetchProduct(id);
 
   if (!product) {
     return <div>Product not found.</div>;
