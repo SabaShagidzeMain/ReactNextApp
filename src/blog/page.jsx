@@ -1,35 +1,33 @@
-"use client";
-
+/* eslint-disable react/prop-types */
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import "./blog.css";
 
 import axios from "axios";
-import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export default function Blog() {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+export async function getServerSideProps() {
+  let posts = [];
+  try {
+    const response = await axios.get("https://dummyjson.com/posts");
+    posts = response.data.posts || [];
+  } catch (error) {
+    console.error("Error Fetching Blog Posts:", error);
+  }
 
-  const getPosts = () => {
-    try {
-      axios.get("https://dummyjson.com/posts").then((result) => {
-        setPosts(result.data.posts);
-      });
-    } catch {
-      console.error("Blogs Error");
-    } finally {
-      setLoading(false);
-    }
+  return {
+    props: {
+      posts,
+    },
   };
+}
 
-  useEffect(getPosts, []);
-
-  if (loading) {
+export default function Blog({ posts }) {
+  if (!posts || posts.length === 0) {
     return (
       <div className="loading-screen">
         <div className="spinner"></div>
+        <p>No Blog Posts Found</p>
       </div>
     );
   }
