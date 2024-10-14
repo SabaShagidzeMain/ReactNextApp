@@ -52,5 +52,3 @@ export default async function PostDetail({ params }) {
     </>
   );
 }
-
-// Test
