@@ -22,10 +22,10 @@ export default function Blog() {
     getPosts();
   }, []);
 
+  console.log(posts);
   const addNewPost = (newPost) => {
     setPosts((prevPosts) => [...prevPosts, newPost]);
   };
-  console.log(posts);
   return (
     <>
       <Header />

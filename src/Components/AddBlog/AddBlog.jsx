@@ -24,10 +24,6 @@ export default function AddBlog({ addNewPost }) {
     setBodyValue("");
   };
 
-  const handleDelete = (id) => {
-    
-  }
-
   return (
     <>
       <form onSubmit={handleSubmit}>
