@@ -3,29 +3,37 @@ import React, { useState, useEffect } from "react";
 import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
 import Link from "next/link";
-import { fetchPosts } from "@/Utilities/fetchPosts";
 import AddBlog from "@/Components/AddBlog/AddBlog";
 import "./blog.css";
 
 export default function Blog() {
   const [posts, setPosts] = useState([]);
 
-  const handleDelete = (id) => {
-    setPosts((prev) => prev.filter((element) => element.id !== id));
-  };
-
   useEffect(() => {
-    const getPosts = async () => {
-      const fetchedPosts = await fetchPosts();
-      setPosts(fetchedPosts || []);
-    };
-    getPosts();
+    // Load posts from localStorage on mount
+    const savedPosts = JSON.parse(localStorage.getItem("localPosts")) || [];
+    setPosts(savedPosts);
   }, []);
 
-  console.log(posts);
-  const addNewPost = (newPost) => {
-    setPosts((prevPosts) => [...prevPosts, newPost]);
+  const handleDelete = (id) => {
+    setPosts((prev) => {
+      const updatedPosts = prev.filter((element) => element.id !== id);
+      localStorage.setItem("localPosts", JSON.stringify(updatedPosts)); // Update localStorage
+      return updatedPosts;
+    });
   };
+
+  const addNewPost = (newPost) => {
+    setPosts((prevPosts) => {
+      const updatedPosts = [
+        ...prevPosts,
+        { ...newPost, id: prevPosts.length + 1 }, // Example of incrementing ID
+      ];
+      localStorage.setItem("localPosts", JSON.stringify(updatedPosts));
+      return updatedPosts;
+    });
+  };
+
   return (
     <>
       <Header />
