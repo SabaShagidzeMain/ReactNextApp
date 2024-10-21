@@ -1,5 +1,5 @@
 'use client'
-import /* React, */ { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 
@@ -28,6 +28,7 @@ function Authorization() {
     
     if (response.ok && data.accessToken) {
       Cookies.set('accessToken', data.accessToken, { path: '/', secure: false, sameSite: 'Strict' });
+      router.push('/'); 
 console.log('token set:', data.accessToken);
 
     } else {

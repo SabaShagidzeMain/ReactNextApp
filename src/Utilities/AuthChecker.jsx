@@ -2,14 +2,12 @@
 import { usePathname, useRouter } from 'next/navigation'
 import  { useEffect } from 'react'
 import Cookies from 'js-cookie'
-import Link from 'next/link'
-
 
 
 const AuthChecker = ({children}) => {
     const router = useRouter();
     const pathname = usePathname();
-    const token = Cookies.get('sccessToken');
+    const token = Cookies.get('accessToken');
 
     useEffect(() =>{
         if(!token && pathname !== 'login'){
@@ -17,12 +15,8 @@ const AuthChecker = ({children}) => {
         }
     },[pathname,token,router])
 
-    if(!token && pathname === '/login'){
-        <Link to = {'/login'}> <button>Go to Login</button></Link>
-    }
-
   return (
-    <div>children</div>
+    <div>{children}</div>
   )
 }
 
