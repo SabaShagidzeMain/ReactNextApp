@@ -1,23 +1,51 @@
 /* eslint-disable react/prop-types */
-import { fetchPost } from "@/Utilities/fetchPost";
+"use client";
+
+import { useEffect, useState } from "react";
+import { fetchPost } from "@/Utilities/fetchPost"; // Keep this if you're fetching from the API
 import "./singleblog.css";
 import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
 
-export default async function PostDetail({ params }) {
+export default function PostDetail({ params }) {
   const { id } = params;
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true); // State to manage loading status
 
-  // Fetch local posts from localStorage (only in the client side)
-  const localPosts =
-    typeof window !== "undefined"
-      ? JSON.parse(localStorage.getItem("localPosts")) || []
-      : [];
+  useEffect(() => {
+    const localPosts = JSON.parse(localStorage.getItem("localPosts")) || [];
+    const localPost = localPosts.find((post) => post.id === Number(id));
 
-  // Fetch the post using local posts and ID
-  const post = await fetchPost(id, localPosts);
+    if (localPost) {
+      setPost(localPost);
+      setLoading(false);
+    } else {
+      const fetchLocalPost = async () => {
+        const fetchedPost = await fetchPost(id);
+        setPost(fetchedPost);
+        setLoading(false);
+      };
+      fetchLocalPost();
+    }
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="loading-screen">
+        <div className="spinner">
+          <p>...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!post) {
-    return <div>Post not found.</div>;
+    return (
+      <div className="loading-screen">
+        <div className="spinner"></div>
+        <p>No blog posts found.</p>
+      </div>
+    );
   }
 
   return (

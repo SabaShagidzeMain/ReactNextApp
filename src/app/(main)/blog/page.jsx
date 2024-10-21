@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
 import Link from "next/link";
@@ -10,7 +10,6 @@ export default function Blog() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    // Load posts from localStorage on mount
     const savedPosts = JSON.parse(localStorage.getItem("localPosts")) || [];
     setPosts(savedPosts);
   }, []);
@@ -18,17 +17,18 @@ export default function Blog() {
   const handleDelete = (id) => {
     setPosts((prev) => {
       const updatedPosts = prev.filter((element) => element.id !== id);
-      localStorage.setItem("localPosts", JSON.stringify(updatedPosts)); // Update localStorage
+      localStorage.setItem("localPosts", JSON.stringify(updatedPosts));
       return updatedPosts;
     });
   };
 
   const addNewPost = (newPost) => {
     setPosts((prevPosts) => {
-      const updatedPosts = [
-        ...prevPosts,
-        { ...newPost, id: prevPosts.length + 1 }, // Example of incrementing ID
-      ];
+      const newId =
+        prevPosts.length > 0
+          ? Math.max(...prevPosts.map((post) => post.id)) + 1
+          : 1;
+      const updatedPosts = [...prevPosts, { ...newPost, id: newId }];
       localStorage.setItem("localPosts", JSON.stringify(updatedPosts));
       return updatedPosts;
     });

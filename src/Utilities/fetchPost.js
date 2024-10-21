@@ -3,7 +3,7 @@ import axios from "axios";
 export async function fetchPost(id, localPosts = []) {
   const localPost = localPosts.find((post) => post.id === parseFloat(id));
   if (localPost) {
-    return localPost; 
+    return localPost;
   }
 
   try {
