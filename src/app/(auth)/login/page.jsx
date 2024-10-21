@@ -44,7 +44,26 @@ useEffect(() => {
 
   return (
     <section>
-      
+      <form onSubmit={handleSubmit}>
+        <h1>Log In</h1>
+        <div>
+          <input
+            type="text"
+            value={username}
+            required
+            placeholder='Enter Your Username...'
+            onChange={(e) => setUsername(e.target.value)} />
+        </div>
+        <div>
+          <input
+            type="password"
+            value={password}
+            required
+            placeholder='Enter Your Password'
+            onChange={(e) => setPassword(e.target.value)} />
+        </div>
+        <button type='submit'>Log In</button>
+      </form>
     </section>
   );
 }
