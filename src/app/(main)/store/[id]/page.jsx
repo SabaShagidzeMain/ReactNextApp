@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import Header from "../../../Components/Header/Header";
-import Footer from "../../../Components/Footer/Footer";
+import Header from "../../../../Components/Header/Header";
+import Footer from "../../../../Components/Footer/Footer";
 
 import { fetchProduct } from "@/Utilities/fetchProduct";
 import "./singleproduct.css";

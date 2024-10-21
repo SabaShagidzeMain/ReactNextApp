@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import "./store.css";
 
-import Header from "../../Components/Header/Header";
-import Footer from "../../Components/Footer/Footer";
-import ProductCard from "../../Components/ProductCard/ProductCard";
+import Header from "@/Components/Header/Header";
+import Footer from "@/Components/Footer/Footer";
+import ProductCard from "@/Components/ProductCard/ProductCard";
 import SearchSort from "@/Components/SearchSort/SearchSort";
 
 import { fetchProducts } from "@/Utilities/fetchProducts";
