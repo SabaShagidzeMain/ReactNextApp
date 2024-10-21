@@ -9,9 +9,11 @@ import "./blog.css";
 
 export default function Blog() {
   const [posts, setPosts] = useState([]);
-  
 
-  
+  const handleDelete = (id) => {
+    setPosts((prev) => prev.filter((element) => element.id !== id));
+  };
+
   useEffect(() => {
     const getPosts = async () => {
       const fetchedPosts = await fetchPosts();
@@ -23,7 +25,7 @@ export default function Blog() {
   const addNewPost = (newPost) => {
     setPosts((prevPosts) => [...prevPosts, newPost]);
   };
-   console.log(posts)
+  console.log(posts);
   return (
     <>
       <Header />
@@ -44,6 +46,7 @@ export default function Blog() {
                   <Link className="blog-link Link" href={`/blog/${post.id}`}>
                     Open Post
                   </Link>
+                  <button onClick={() => handleDelete(post.id)}>DELETE</button>
                 </div>
               </div>
             ))
