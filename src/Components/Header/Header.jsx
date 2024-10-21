@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Link from "next/link";
 import "./Header.css";
+import LogOutBtn from "../LogOutBtn/LogOutBtn";
 
 const Header = () => {
   const navRef = useRef();
@@ -39,6 +40,7 @@ const Header = () => {
               className="profile-image"
             />
           </Link>
+          <LogOutBtn />
         </div>
         <button className="nav-btn nav-close-btn" onClick={showNavbar}>
           <FaTimes />
