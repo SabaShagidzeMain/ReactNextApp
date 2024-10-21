@@ -10,7 +10,7 @@ const AuthChecker = ({children}) => {
     const token = Cookies.get('accessToken');
 
     useEffect(() =>{
-        if(!token && pathname !== 'login'){
+        if(!token && pathname !== '/login'){
             router.push('/login');
         }
     },[pathname,token,router])

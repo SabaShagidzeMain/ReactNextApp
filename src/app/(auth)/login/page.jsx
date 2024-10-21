@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
-
+import './login.css'
 
 function Authorization() {
   const [username, setUsername] = useState('');
@@ -44,27 +44,29 @@ useEffect(() => {
 }, [router]);
 
   return (
-    <section>
-      <form onSubmit={handleSubmit}>
-        <h1>Log In</h1>
-        <div>
-          <input
-            type="text"
-            value={username}
-            required
-            placeholder='Enter Your Username...'
-            onChange={(e) => setUsername(e.target.value)} />
-        </div>
-        <div>
-          <input
-            type="password"
-            value={password}
-            required
-            placeholder='Enter Your Password'
-            onChange={(e) => setPassword(e.target.value)} />
-        </div>
-        <button type='submit'>Log In</button>
-      </form>
+    <section className='login-wrapper'>
+    <div className='bc-image'>
+        <form className='form' onSubmit={handleSubmit}>
+            <h1>Log In</h1>
+            <div>
+                <input className='input'
+                type="text"
+                value={username}
+                required
+                placeholder='Enter Your Username...'
+                onChange={(e) => setUsername(e.target.value)} />
+            </div>
+            <div>
+                <input className='input'
+                type="password"
+                value={password}
+                required
+                placeholder='Enter Your Password'
+                onChange={(e) => setPassword(e.target.value)} />
+            </div>
+            <button  className='login-button' type='submit'>Log In</button>
+        </form>
+    </div>
     </section>
   );
 }
