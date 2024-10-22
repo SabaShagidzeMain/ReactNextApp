@@ -4,7 +4,7 @@ import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
 import Link from "next/link";
 import AddBlog from "@/Components/AddBlog/AddBlog";
-import { fetchPosts } from "@/Utilities/fetchPosts"; // Import the fetch function
+import { fetchPosts } from "@/Utilities/fetchPosts";
 import "./blog.css";
 
 export default function Blog() {
@@ -27,7 +27,7 @@ export default function Blog() {
   const handleDelete = (id) => {
     setPosts((prev) => {
       const updatedPosts = prev.filter((element) => element.id !== id);
-      localStorage.setItem("localPosts", JSON.stringify(updatedPosts)); // Update localStorage
+      localStorage.setItem("localPosts", JSON.stringify(updatedPosts));
       return updatedPosts;
     });
   };
@@ -38,7 +38,7 @@ export default function Blog() {
         prevPosts.length > 0
           ? Math.max(...prevPosts.map((post) => post.id)) + 1
           : 1;
-      const updatedPosts = [{ ...newPost, id: newId }, ...prevPosts]; // Add new post to the top
+      const updatedPosts = [{ ...newPost, id: newId }, ...prevPosts];
       localStorage.setItem("localPosts", JSON.stringify(updatedPosts));
       return updatedPosts;
     });

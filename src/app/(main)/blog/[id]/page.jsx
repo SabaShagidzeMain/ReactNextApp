@@ -10,8 +10,8 @@ import Footer from "@/Components/Footer/Footer";
 export default function PostDetail({ params }) {
   const { id } = params;
   const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(true); // Loading status
-  const [error, setError] = useState(null); // Error state
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const localPosts = JSON.parse(localStorage.getItem("localPosts")) || [];
@@ -30,7 +30,7 @@ export default function PostDetail({ params }) {
             setPost(fetchedPost);
           }
         } catch {
-          setError("Error fetching post."); // Removed unused `err` variable
+          setError("Error fetching post.");
         } finally {
           setLoading(false);
         }

@@ -80,7 +80,6 @@ export default function Store({ searchParams }) {
           {showAddProduct ? "Cancel" : "Add New Product"}
         </button>
         {showAddProduct && <AddProduct onAdd={addNewProduct} />}{" "}
-        {/* Show the AddProduct component */}
         <div className="product-list products-wrapper">
           {sortedProducts.map((product) => (
             <div key={product.id}>

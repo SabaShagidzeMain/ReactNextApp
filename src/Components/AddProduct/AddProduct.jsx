@@ -7,16 +7,32 @@ export default function AddProduct({ onAdd }) {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [thumbnail, setThumbnail] = useState(null);
+  const [additionalImages, setAdditionalImages] = useState([]);
 
-  const handleFileChange = (e) => {
+  const handleThumbnailChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setThumbnail(reader.result);
+        setThumbnail(reader.result); // Set thumbnail base64 string
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleAdditionalImagesChange = (e) => {
+    const files = Array.from(e.target.files);
+    const imageReaders = files.map((file) => {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result); // Set base64 string
+        reader.readAsDataURL(file);
+      });
+    });
+
+    Promise.all(imageReaders).then((images) => {
+      setAdditionalImages(images);
+    });
   };
 
   const handleSubmit = (e) => {
@@ -26,12 +42,14 @@ export default function AddProduct({ onAdd }) {
       description,
       price: parseFloat(price),
       thumbnail,
+      images: [thumbnail, ...additionalImages], // Include thumbnail in images array
     };
     onAdd(newProduct);
     setTitle("");
     setDescription("");
     setPrice("");
     setThumbnail(null);
+    setAdditionalImages([]);
   };
 
   return (
@@ -62,8 +80,14 @@ export default function AddProduct({ onAdd }) {
         <input
           type="file"
           accept="image/*"
-          onChange={handleFileChange}
+          onChange={handleThumbnailChange}
           required
+        />
+        <input
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={handleAdditionalImagesChange}
         />
         <button type="submit">Add Product</button>
       </form>
@@ -73,7 +97,20 @@ export default function AddProduct({ onAdd }) {
           alt="Product Thumbnail"
           style={{ width: "100px", height: "100px", objectFit: "cover" }}
         />
-      )}{" "}
+      )}
+      {additionalImages.length > 0 && (
+        <div>
+          <h3>Additional Images Preview:</h3>
+          {additionalImages.map((image, index) => (
+            <img
+              key={index}
+              src={image}
+              alt={`Additional Image ${index + 1}`}
+              style={{ width: "100px", height: "100px", objectFit: "cover" }}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
