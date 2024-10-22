@@ -1,22 +1,30 @@
-/* eslint-disable react/prop-types */
+"use client";
+
 import Header from "../../../../Components/Header/Header";
 import Footer from "../../../../Components/Footer/Footer";
 import { fetchPost } from "@/Utilities/fetchPost";
-
+import { useState, useEffect } from "react";
 import "./singleblog.css";
 
-export default async function PostDetail({ params }) {
+// eslint-disable-next-line react/prop-types
+export default function PostDetail({ params }) {
+  // eslint-disable-next-line react/prop-types
   const { id } = params;
+  const [post, setPost] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); 
 
-  const post = await fetchPost(id);
+  useEffect(() => {
+    const fetchPostData = async () => {
+      const postData = await fetchPost(id);
+      setPost(postData);
+      setIsLoading(false); 
+    };
 
-  if (!post) {
-    return <div>Post not found.</div>;
-  }
+    fetchPostData();  
+  }, [id]); 
 
-  if (params.id > 30) {
-    return <div>Post Not Found</div>;
-  }
+  if (isLoading) return <div>Loading post details...</div>;
+  if (!post) return <div>Post not found.</div>;
 
   return (
     <>
