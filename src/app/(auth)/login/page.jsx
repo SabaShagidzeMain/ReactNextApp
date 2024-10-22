@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import './login.css'
+import { LoginUser } from '@/Utilities/LoginUser';
 
 function Authorization() {
   const [username, setUsername] = useState('');
@@ -13,18 +14,7 @@ function Authorization() {
   const handleSubmit = async (e) => {
       e.preventDefault();
       
-      const response = await fetch('https://dummyjson.com/auth/login', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            username: username,
-            password: password,
-        }),
-    });
-  
-    const data = await response.json(); 
+      const {response, data} = await LoginUser(username, password)
     
     if (response.ok && data.accessToken) {
       Cookies.set('accessToken', data.accessToken, { path: '/', secure: false, sameSite: 'Strict' });

@@ -1,21 +1,67 @@
 /* eslint-disable react/prop-types */
-import Header from "../../../Components/Header/Header";
-import Footer from "../../../Components/Footer/Footer";
+"use client";
+
+import { useEffect, useState } from "react";
 import { fetchPost } from "@/Utilities/fetchPost";
-
 import "./singleblog.css";
+import Header from "@/Components/Header/Header";
+import Footer from "@/Components/Footer/Footer";
 
-export default async function PostDetail({ params }) {
+export default function PostDetail({ params }) {
   const { id } = params;
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const post = await fetchPost(id);
+  useEffect(() => {
+    const localPosts = JSON.parse(localStorage.getItem("localPosts")) || [];
+    const localPost = localPosts.find((post) => post.id === Number(id));
 
-  if (!post) {
-    return <div>Post not found.</div>;
+    if (localPost) {
+      setPost(localPost);
+      setLoading(false);
+    } else {
+      const fetchLocalPost = async () => {
+        try {
+          const fetchedPost = await fetchPost(id);
+          if (!fetchedPost) {
+            setError("Post not found.");
+          } else {
+            setPost(fetchedPost);
+          }
+        } catch {
+          setError("Error fetching post.");
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchLocalPost();
+    }
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="loading-screen">
+        <div className="spinner"></div>
+        <p>Loading post...</p>
+      </div>
+    );
   }
 
-  if (params.id > 30) {
-    return <div>Post Not Found</div>;
+  if (error) {
+    return (
+      <div className="loading-screen">
+        <p>{error}</p>
+      </div>
+    );
+  }
+
+  if (!post) {
+    return (
+      <div className="loading-screen">
+        <p>No blog posts found.</p>
+      </div>
+    );
   }
 
   return (
