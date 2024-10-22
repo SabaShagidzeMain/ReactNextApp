@@ -6,6 +6,7 @@ import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
 import ProductCard from "@/Components/ProductCard/ProductCard";
 import SearchSort from "@/Components/SearchSort/SearchSort";
+import AddProduct from "@/Components/AddProduct/AddProduct";
 
 import { useState, useEffect } from "react";
 import { fetchProducts } from "@/Utilities/fetchProducts";
@@ -16,6 +17,7 @@ export default function Store({ searchParams }) {
   const sortOption = searchParams.sort || "";
 
   const [products, setProducts] = useState([]);
+  const [showAddProduct, setShowAddProduct] = useState(false);
 
   useEffect(() => {
     const savedProducts =
@@ -52,6 +54,7 @@ export default function Store({ searchParams }) {
       localStorage.setItem("localProducts", JSON.stringify(updatedProducts));
       return updatedProducts;
     });
+    setShowAddProduct(false);
   };
 
   const handleDelete = (id) => {
@@ -73,18 +76,11 @@ export default function Store({ searchParams }) {
       <Header />
       <main className="main store-main">
         <SearchSort />
-        <button
-          onClick={() =>
-            addNewProduct({
-              title: "new Product",
-              price: 100,
-              thumbnail: "path-to-image",
-              description: "new Description",
-            })
-          }
-        >
-          Add New Product
+        <button onClick={() => setShowAddProduct((prev) => !prev)}>
+          {showAddProduct ? "Cancel" : "Add New Product"}
         </button>
+        {showAddProduct && <AddProduct onAdd={addNewProduct} />}{" "}
+        {/* Show the AddProduct component */}
         <div className="product-list products-wrapper">
           {sortedProducts.map((product) => (
             <div key={product.id}>
@@ -96,7 +92,6 @@ export default function Store({ searchParams }) {
                   desc={product.description}
                 />
               </Link>
-              {/* Moved delete button inside the map */}
               <button onClick={() => handleDelete(product.id)}>Delete</button>
             </div>
           ))}
