@@ -22,11 +22,13 @@ export default function PostDetail({ params }) {
     const localPost = localPosts.find((post) => post.id === Number(id));
 
     if (localPost) {
+      // If the post is found in localStorage, set the state
       setPost(localPost);
       setTitle(localPost.title);
       setBody(localPost.body);
       setLoading(false);
     } else {
+      // Fetch from API if not found in localStorage
       const fetchLocalPost = async () => {
         try {
           const fetchedPost = await fetchPost(id);
@@ -50,21 +52,27 @@ export default function PostDetail({ params }) {
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleBodyChange = (e) => setBody(e.target.value);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.put(`https://dummyjson.com/posts/${id}`, {
-        title,
-        body,
-      });
 
-      const updatedPost = response.data;
-      setPost(updatedPost);
-      localStorage.setItem(`post-${id}`, JSON.stringify(updatedPost));
-      setIsEditing(false);
-    } catch (error) {
-      console.error("Error updating post:", error);
-    }
+    // Create updated post object for local storage
+    const updatedPost = {
+      ...post,
+      title,
+      body,
+    };
+
+    // Update local storage
+    const localPosts = JSON.parse(localStorage.getItem("localPosts")) || [];
+    const updatedLocalPosts = localPosts.map((p) =>
+      p.id === updatedPost.id ? updatedPost : p
+    );
+
+    localStorage.setItem("localPosts", JSON.stringify(updatedLocalPosts));
+
+    // Update component state
+    setPost(updatedPost);
+    setIsEditing(false);
   };
 
   if (loading) {
@@ -110,14 +118,27 @@ export default function PostDetail({ params }) {
                 onChange={handleBodyChange}
                 className="edit-input body-input"
               ></textarea>
-              <button type="submit" className="save-button">Save</button>
-              <button type="button" className="cancel-button" onClick={() => setIsEditing(false)}>Cancel</button>
+              <button type="submit" className="save-button">
+                Save
+              </button>
+              <button
+                type="button"
+                className="cancel-button"
+                onClick={() => setIsEditing(false)}
+              >
+                Cancel
+              </button>
             </form>
           ) : (
             <>
               <h1 className="post-title">{title}</h1>
               <p className="post-body">{body}</p>
-              <button className="edit-button" onClick={() => setIsEditing(true)}>Edit Post</button>
+              <button
+                className="edit-button"
+                onClick={() => setIsEditing(true)}
+              >
+                Edit Post
+              </button>
             </>
           )}
         </div>
@@ -126,4 +147,3 @@ export default function PostDetail({ params }) {
     </>
   );
 }
-
