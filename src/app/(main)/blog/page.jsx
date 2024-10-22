@@ -8,24 +8,40 @@ import { useState, useEffect } from "react";
 import "./blog.css";
 
 export default function Blog() {
-  const [posts, setPosts] = useState([]); 
-  const [isLoading, setIsLoading] = useState(true); 
+  const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchAndUpdatePosts = async () => {
-      const fetchedPosts = await fetchPosts(); 
+      let fetchedPosts = await fetchPosts();
+
+      fetchedPosts = fetchedPosts.map((post) => {
+        const updatedPost = localStorage.getItem(`post-${post.id}`);
+        return updatedPost ? JSON.parse(updatedPost) : post;
+      });
+
       setPosts(fetchedPosts);
-      setIsLoading(false); 
+      setIsLoading(false);
     };
 
-    fetchAndUpdatePosts(); 
-  }, []); 
+    if (typeof window !== "undefined") {
+      fetchAndUpdatePosts();
+    }
+  }, []);
 
   if (isLoading) {
     return (
       <div className="loading-screen">
         <div className="spinner"></div>
         <p>Loading blog posts...</p>
+      </div>
+    );
+  }
+
+  if (!posts.length) {
+    return (
+      <div className="loading-screen">
+        <p>No blog posts found.</p>
       </div>
     );
   }
