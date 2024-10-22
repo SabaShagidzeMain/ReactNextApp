@@ -1,20 +1,23 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
 import Link from "next/link";
 import AddBlog from "@/Components/AddBlog/AddBlog";
 import { fetchPosts } from "@/Utilities/fetchPosts";
-import "./blog.css";
 import { apiPost } from "@/Utilities/apiPost";
+import "./blog.css";
 
 export default function Blog() {
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    async function loadPosts() {
+    const fetchAndUpdatePosts = async () => {
       const savedPosts = JSON.parse(localStorage.getItem("localPosts")) || [];
       const fetchedPosts = await fetchPosts();
+
       const allPosts = [...savedPosts, ...fetchedPosts];
       const usedIds = new Set();
       const normalizedPosts = allPosts.map((post) => {
@@ -27,10 +30,14 @@ export default function Blog() {
       });
 
       setPosts(normalizedPosts);
-    }
+      setIsLoading(false);
+    };
 
-    loadPosts();
+    if (typeof window !== "undefined") {
+      fetchAndUpdatePosts();
+    }
   }, []);
+
   const handleDelete = (id) => {
     setPosts((prev) => {
       const updatedPosts = prev.filter((element) => element.id !== id);
@@ -52,6 +59,15 @@ export default function Blog() {
     });
   };
 
+  if (isLoading) {
+    return (
+      <div className="loading-screen">
+        <div className="spinner"></div>
+        <p>Loading blog posts...</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <Header />
@@ -60,7 +76,6 @@ export default function Blog() {
         <div className="blog-inner-container">
           {posts.length === 0 ? (
             <div className="loading-screen">
-              <div className="spinner"></div>
               <p>No blog posts found.</p>
             </div>
           ) : (
