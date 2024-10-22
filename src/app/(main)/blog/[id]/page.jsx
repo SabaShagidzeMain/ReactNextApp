@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchPost } from "@/Utilities/fetchPost"; // Keep this if you're fetching from the API
+import { fetchPost } from "@/Utilities/fetchPost";
 import "./singleblog.css";
 import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
@@ -10,7 +10,8 @@ import Footer from "@/Components/Footer/Footer";
 export default function PostDetail({ params }) {
   const { id } = params;
   const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(true); // State to manage loading status
+  const [loading, setLoading] = useState(true); // Loading status
+  const [error, setError] = useState(null); // Error state
 
   useEffect(() => {
     const localPosts = JSON.parse(localStorage.getItem("localPosts")) || [];
@@ -21,9 +22,18 @@ export default function PostDetail({ params }) {
       setLoading(false);
     } else {
       const fetchLocalPost = async () => {
-        const fetchedPost = await fetchPost(id);
-        setPost(fetchedPost);
-        setLoading(false);
+        try {
+          const fetchedPost = await fetchPost(id);
+          if (!fetchedPost) {
+            setError("Post not found.");
+          } else {
+            setPost(fetchedPost);
+          }
+        } catch {
+          setError("Error fetching post."); // Removed unused `err` variable
+        } finally {
+          setLoading(false);
+        }
       };
       fetchLocalPost();
     }
@@ -32,9 +42,16 @@ export default function PostDetail({ params }) {
   if (loading) {
     return (
       <div className="loading-screen">
-        <div className="spinner">
-          <p>...</p>
-        </div>
+        <div className="spinner"></div>
+        <p>Loading post...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="loading-screen">
+        <p>{error}</p>
       </div>
     );
   }
@@ -42,7 +59,6 @@ export default function PostDetail({ params }) {
   if (!post) {
     return (
       <div className="loading-screen">
-        <div className="spinner"></div>
         <p>No blog posts found.</p>
       </div>
     );
