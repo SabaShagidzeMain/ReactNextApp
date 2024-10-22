@@ -24,7 +24,13 @@ export default function Store({ searchParams }) {
       JSON.parse(localStorage.getItem("localProducts")) || [];
     const fetchInitialProducts = async () => {
       const fetchedProducts = await fetchProducts(query);
-      setProducts([...savedProducts, ...fetchedProducts]);
+      // Merge and ensure unique products
+      const allProducts = [...savedProducts, ...fetchedProducts];
+      const uniqueProducts = Array.from(
+        new Map(allProducts.map((item) => [item.id, item])).values()
+      ); // Create a map to filter out duplicates based on 'id'
+
+      setProducts(uniqueProducts);
     };
     fetchInitialProducts();
   }, [query]);
@@ -62,7 +68,20 @@ export default function Store({ searchParams }) {
       const updatedProducts = prevProducts.filter(
         (product) => product.id !== id
       );
-      localStorage.setItem("localProducts", JSON.stringify(updatedProducts));
+
+      // Update local storage only for local products
+      const localProducts =
+        JSON.parse(localStorage.getItem("localProducts")) || [];
+      const updatedLocalProducts = localProducts.filter(
+        (product) => product.id !== id
+      );
+
+      // Save updated local products back to local storage
+      localStorage.setItem(
+        "localProducts",
+        JSON.stringify(updatedLocalProducts)
+      );
+
       return updatedProducts;
     });
   };
@@ -79,7 +98,7 @@ export default function Store({ searchParams }) {
         <button onClick={() => setShowAddProduct((prev) => !prev)}>
           {showAddProduct ? "Cancel" : "Add New Product"}
         </button>
-        {showAddProduct && <AddProduct onAdd={addNewProduct} />}{" "}
+        {showAddProduct && <AddProduct onAdd={addNewProduct} />}
         <div className="product-list products-wrapper">
           {sortedProducts.map((product) => (
             <div key={product.id}>
