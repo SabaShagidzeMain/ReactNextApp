@@ -18,20 +18,18 @@ export default function Store({ searchParams }) {
 
   const [products, setProducts] = useState([]);
   const [showAddProduct, setShowAddProduct] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null); // For delete confirmation
 
   useEffect(() => {
     const fetchInitialProducts = async () => {
-      // First, check local storage for products
       const savedProducts =
         JSON.parse(localStorage.getItem("localProducts")) || [];
 
-      // If there are no products in local storage, fetch from the API
       let fetchedProducts = [];
       if (savedProducts.length === 0) {
         fetchedProducts = await fetchProducts(query);
       }
 
-      // Merge local and fetched products
       const allProducts = [...savedProducts, ...fetchedProducts];
       const uniqueProducts = Array.from(
         new Map(allProducts.map((item) => [item.id, item])).values()
@@ -71,6 +69,10 @@ export default function Store({ searchParams }) {
     setShowAddProduct(false);
   };
 
+  const confirmDelete = (id) => {
+    setProductToDelete(id); // Set product to be deleted
+  };
+
   const handleDelete = (id) => {
     setProducts((prevProducts) => {
       const updatedProducts = prevProducts.filter(
@@ -90,6 +92,11 @@ export default function Store({ searchParams }) {
 
       return updatedProducts;
     });
+    setProductToDelete(null); // Close the confirmation dialog after deletion
+  };
+
+  const cancelDelete = () => {
+    setProductToDelete(null); // Close the confirmation dialog without deleting
   };
 
   if (!sortedProducts || sortedProducts.length === 0) {
@@ -116,7 +123,16 @@ export default function Store({ searchParams }) {
                   desc={product.description}
                 />
               </Link>
-              <button onClick={() => handleDelete(product.id)}>Delete</button>
+              <button onClick={() => confirmDelete(product.id)}>Delete</button>
+
+              {/* Confirmation Dialog */}
+              {productToDelete === product.id && (
+                <div className="confirmation-dialog">
+                  <p>Are you sure you want to delete this product?</p>
+                  <button onClick={() => handleDelete(product.id)}>Yes</button>
+                  <button onClick={cancelDelete}>No</button>
+                </div>
+              )}
             </div>
           ))}
         </div>
