@@ -20,18 +20,26 @@ export default function Store({ searchParams }) {
   const [showAddProduct, setShowAddProduct] = useState(false);
 
   useEffect(() => {
-    const savedProducts =
-      JSON.parse(localStorage.getItem("localProducts")) || [];
     const fetchInitialProducts = async () => {
-      const fetchedProducts = await fetchProducts(query);
-      // Merge and ensure unique products
+      // First, check local storage for products
+      const savedProducts =
+        JSON.parse(localStorage.getItem("localProducts")) || [];
+
+      // If there are no products in local storage, fetch from the API
+      let fetchedProducts = [];
+      if (savedProducts.length === 0) {
+        fetchedProducts = await fetchProducts(query);
+      }
+
+      // Merge local and fetched products
       const allProducts = [...savedProducts, ...fetchedProducts];
       const uniqueProducts = Array.from(
         new Map(allProducts.map((item) => [item.id, item])).values()
-      ); // Create a map to filter out duplicates based on 'id'
+      );
 
       setProducts(uniqueProducts);
     };
+
     fetchInitialProducts();
   }, [query]);
 
@@ -69,14 +77,12 @@ export default function Store({ searchParams }) {
         (product) => product.id !== id
       );
 
-      // Update local storage only for local products
       const localProducts =
         JSON.parse(localStorage.getItem("localProducts")) || [];
       const updatedLocalProducts = localProducts.filter(
         (product) => product.id !== id
       );
 
-      // Save updated local products back to local storage
       localStorage.setItem(
         "localProducts",
         JSON.stringify(updatedLocalProducts)

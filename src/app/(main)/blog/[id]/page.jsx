@@ -3,7 +3,6 @@
 
 import { useEffect, useState } from "react";
 import { fetchPost } from "@/Utilities/fetchPost";
-import axios from "axios";
 import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
 import "./singleblog.css";
@@ -22,13 +21,11 @@ export default function PostDetail({ params }) {
     const localPost = localPosts.find((post) => post.id === Number(id));
 
     if (localPost) {
-      // If the post is found in localStorage, set the state
       setPost(localPost);
       setTitle(localPost.title);
       setBody(localPost.body);
       setLoading(false);
     } else {
-      // Fetch from API if not found in localStorage
       const fetchLocalPost = async () => {
         try {
           const fetchedPost = await fetchPost(id);
@@ -55,7 +52,6 @@ export default function PostDetail({ params }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Create updated post object for local storage
     const updatedPost = {
       ...post,
       title,
@@ -70,7 +66,6 @@ export default function PostDetail({ params }) {
 
     localStorage.setItem("localPosts", JSON.stringify(updatedLocalPosts));
 
-    // Update component state
     setPost(updatedPost);
     setIsEditing(false);
   };
