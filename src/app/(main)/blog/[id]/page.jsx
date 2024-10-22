@@ -7,7 +7,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./singleblog.css";
 
+// eslint-disable-next-line react/prop-types
 export default function PostDetail({ params }) {
+  // eslint-disable-next-line react/prop-types
   const { id } = params;
 
   const [post, setPost] = useState(null);
@@ -16,7 +18,6 @@ export default function PostDetail({ params }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
-  // Fetch the post when the component mounts
   useEffect(() => {
     const storedPost = localStorage.getItem(`post-${id}`);
 
