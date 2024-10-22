@@ -6,6 +6,7 @@ import Link from "next/link";
 import AddBlog from "@/Components/AddBlog/AddBlog";
 import { fetchPosts } from "@/Utilities/fetchPosts";
 import "./blog.css";
+import { apiPost } from "@/Utilities/apiPost";
 
 export default function Blog() {
   const [posts, setPosts] = useState([]);
@@ -13,23 +14,30 @@ export default function Blog() {
   useEffect(() => {
     async function loadPosts() {
       const savedPosts = JSON.parse(localStorage.getItem("localPosts")) || [];
-
       const fetchedPosts = await fetchPosts();
+      const allPosts = [...savedPosts, ...fetchedPosts];
+      const usedIds = new Set();
+      const normalizedPosts = allPosts.map((post) => {
+        let id = post.id;
+        while (usedIds.has(id)) {
+          id += 1;
+        }
+        usedIds.add(id);
+        return { ...post, id };
+      });
 
-      const combinedPosts = [...savedPosts, ...fetchedPosts];
-
-      setPosts(combinedPosts);
+      setPosts(normalizedPosts);
     }
 
     loadPosts();
   }, []);
-
   const handleDelete = (id) => {
     setPosts((prev) => {
       const updatedPosts = prev.filter((element) => element.id !== id);
       localStorage.setItem("localPosts", JSON.stringify(updatedPosts));
       return updatedPosts;
     });
+    apiPost(id, "DELETE");
   };
 
   const addNewPost = (newPost) => {

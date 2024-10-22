@@ -1,4 +1,5 @@
 "use client";
+import { apiPost } from "@/Utilities/apiPost";
 import React, { useState } from "react";
 
 export default function AddBlog({ addNewPost }) {
@@ -14,11 +15,11 @@ export default function AddBlog({ addNewPost }) {
     }
 
     const newObject = {
-      id: Math.random(),
       title: inputValue,
       body: bodyValue,
     };
 
+    apiPost(newObject, "POST");
     addNewPost(newObject);
     setInputValue("");
     setBodyValue("");
