@@ -1,37 +1,50 @@
+/* eslint-disable react/prop-types */
 "use client";
 
-import Header from "../../../../Components/Header/Header";
-import Footer from "../../../../Components/Footer/Footer";
+import { useEffect, useState } from "react";
 import { fetchPost } from "@/Utilities/fetchPost";
-import { useState, useEffect } from "react";
 import axios from "axios";
+import Header from "@/Components/Header/Header";
+import Footer from "@/Components/Footer/Footer";
 import "./singleblog.css";
 
-// eslint-disable-next-line react/prop-types
 export default function PostDetail({ params }) {
-  // eslint-disable-next-line react/prop-types
   const { id } = params;
-
   const [post, setPost] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
   useEffect(() => {
-    const storedPost = localStorage.getItem(`post-${id}`);
+    const localPosts = JSON.parse(localStorage.getItem("localPosts")) || [];
+    const localPost = localPosts.find((post) => post.id === Number(id));
 
-    const fetchPostData = async () => {
-      const postData = storedPost ? JSON.parse(storedPost) : await fetchPost(id);
-      if (postData) {
-        setPost(postData);
-        setTitle(postData.title);
-        setBody(postData.body);
-      }
-      setIsLoading(false);
-    };
-
-    fetchPostData();
+    if (localPost) {
+      setPost(localPost);
+      setTitle(localPost.title);
+      setBody(localPost.body);
+      setLoading(false);
+    } else {
+      const fetchLocalPost = async () => {
+        try {
+          const fetchedPost = await fetchPost(id);
+          if (!fetchedPost) {
+            setError("Post not found.");
+          } else {
+            setPost(fetchedPost);
+            setTitle(fetchedPost.title);
+            setBody(fetchedPost.body);
+          }
+        } catch {
+          setError("Error fetching post.");
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchLocalPost();
+    }
   }, [id]);
 
   const handleTitleChange = (e) => setTitle(e.target.value);
@@ -54,8 +67,30 @@ export default function PostDetail({ params }) {
     }
   };
 
-  if (isLoading) return <div>Loading post details...</div>;
-  if (!post) return <div>Post not found.</div>;
+  if (loading) {
+    return (
+      <div className="loading-screen">
+        <div className="spinner"></div>
+        <p>Loading post...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="loading-screen">
+        <p>{error}</p>
+      </div>
+    );
+  }
+
+  if (!post) {
+    return (
+      <div className="loading-screen">
+        <p>No blog posts found.</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -91,3 +126,4 @@ export default function PostDetail({ params }) {
     </>
   );
 }
+
