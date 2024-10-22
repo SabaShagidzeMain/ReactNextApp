@@ -1,23 +1,10 @@
 import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
 import "./profile.css";
-
-import { cookies } from "next/headers";
+import { fetchUserDetails } from "@/Utilities/fetchUserDetails";
 
 export default async function Profile() {
-  const userCookies = cookies();
-  const accessToken = userCookies.get("accessToken")?.value;
-
-  const res = await fetch("https://dummyjson.com/auth/me", {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-    credentials: "include",
-  });
-
-  const user = await res.json();
-
+  const user = await fetchUserDetails();
   return (
     <>
       <Header />
