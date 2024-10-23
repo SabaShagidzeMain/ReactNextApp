@@ -104,7 +104,7 @@ export default function Store({ searchParams }) {
       <Header />
       <main className="main store-main">
         <SearchSort />
-        <button onClick={() => setShowAddProduct(true)}>
+        <button className="AddNewProduct-button" onClick={() => setShowAddProduct(true)}>
           Add New Product
         </button>
 

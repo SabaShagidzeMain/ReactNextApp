@@ -198,7 +198,6 @@
 }
 
 
-/* Modal Overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -209,7 +208,6 @@
   z-index: 999;
 }
 
-/* Modal Content */
 .modal {
   position: fixed;
   top: 50%;
@@ -229,7 +227,6 @@
   position: relative;
 }
 
-/* Close Button */
 .close-modal {
   position: absolute;
   top: 10px;
@@ -239,7 +236,7 @@
   cursor: pointer;
 }
 
-/* Fade-in Animation */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -249,4 +246,30 @@
   }
 }
 
+.AddNewProduct-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 30px; 
+  font-size: 16px; 
+  font-weight: bold;
+  border: none; 
+  border-radius: 30px; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  display: inline-block; 
+}
+
+.AddNewProduct-button:hover {
+  background-color: #43a047;
+  box-shadow: 0 8px 20px rgba(67, 160, 71, 0.4); 
+}
+
+.AddNewProduct-button:active {
+  transform: scale(0.95);
+}
+
+.AddNewProduct-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.5); 
+}
 
