@@ -50,9 +50,9 @@ export default function ProductDetail({ params }) {
       return new Promise((resolve) => {
         const reader = new FileReader();
         reader.onloadend = () => {
-          resolve(reader.result); // Get the base64 string of the image
+          resolve(reader.result);
         };
-        reader.readAsDataURL(file); // Read file as Data URL (base64)
+        reader.readAsDataURL(file);
       });
     });
 
