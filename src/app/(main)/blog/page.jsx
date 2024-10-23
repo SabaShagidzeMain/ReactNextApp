@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
@@ -11,6 +12,7 @@ import "./blog.css";
 export default function Blog() {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [postToDelete, setPostToDelete] = useState(null); // For delete confirmation
 
   useEffect(() => {
     const fetchAndUpdatePosts = async () => {
@@ -44,6 +46,15 @@ export default function Blog() {
       return updatedPosts;
     });
     apiPost(id, "DELETE");
+    setPostToDelete(null); // Close confirmation after deletion
+  };
+
+  const confirmDelete = (id) => {
+    setPostToDelete(id); // Set post to be deleted
+  };
+
+  const cancelDelete = () => {
+    setPostToDelete(null); // Close confirmation dialog without deleting
   };
 
   const addNewPost = (newPost) => {
@@ -83,10 +94,27 @@ export default function Blog() {
                 <div className="blog-content">
                   <h2>{post.title}</h2>
                   <p>{post.body}</p>
-                  <Link className="blog-link Link" href={`/blog/${post.id}`}>
-                    Open Post
-                  </Link>
-                  <button onClick={() => handleDelete(post.id)}>DELETE</button>
+                  <div className="buttons-box">
+                    <Link className="blog-link Link" href={`/blog/${post.id}`}>
+                      Open Post
+                    </Link>
+                    <button className="delete-button" onClick={() => confirmDelete(post.id)}>DELETE</button>
+                  </div>
+
+                  {/* Confirmation Dialog */}
+                  {postToDelete === post.id && (
+                    <div className="confirmation-dialog-overlay">
+                      <div className="confirmation-dialog">
+                        <p>Are you sure you want to delete this blog post?</p>
+                        <button className="confirm-button" onClick={() => handleDelete(post.id)}>
+                          Yes
+                        </button>
+                        <button className="cancel-button" onClick={cancelDelete}>
+                          No
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             ))
