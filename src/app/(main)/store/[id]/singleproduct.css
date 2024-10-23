@@ -35,7 +35,7 @@
 }
 
 .edit-input:focus {
-  border-color: #007bff; /* Highlight the input on focus */
+  border-color: #007bff;
 }
 
 .image-preview {

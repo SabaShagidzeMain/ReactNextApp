@@ -1,4 +1,3 @@
-
 "use client";
 import { useState, useRef } from "react";
 import "./AddProduct.css";
@@ -9,8 +8,7 @@ export default function AddProduct({ onAdd }) {
   const [price, setPrice] = useState("");
   const [thumbnail, setThumbnail] = useState(null);
   const [additionalImages, setAdditionalImages] = useState([]);
-  
-  
+
   const thumbnailInputRef = useRef(null);
   const additionalImagesInputRef = useRef(null);
 
@@ -27,21 +25,18 @@ export default function AddProduct({ onAdd }) {
 
   const handleAdditionalImagesChange = (e) => {
     const files = Array.from(e.target.files);
-    console.log('Files:', files); // Add this line to check the files array
     const imageReaders = files.map((file) => {
       return new Promise((resolve) => {
         const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result); // Set base64 string
+        reader.onloadend = () => resolve(reader.result);
         reader.readAsDataURL(file);
       });
     });
-  
+
     Promise.all(imageReaders).then((images) => {
-      console.log('Images:', images); // Add this line to check the images array
-      setAdditionalImages((prevImages) => [...prevImages, ...images]); // Append new images to the existing ones
+      setAdditionalImages((prevImages) => [...prevImages, ...images]);
     });
   };
-  
 
   const handleDeleteThumbnail = () => {
     setThumbnail(null);
@@ -52,7 +47,7 @@ export default function AddProduct({ onAdd }) {
     setAdditionalImages((prevImages) =>
       prevImages.filter((_, i) => i !== index)
     );
-    additionalImagesInputRef.current.value = ""; 
+    additionalImagesInputRef.current.value = "";
   };
 
   const handleSubmit = (e) => {
@@ -65,6 +60,7 @@ export default function AddProduct({ onAdd }) {
       images: [thumbnail, ...additionalImages],
     };
     onAdd(newProduct);
+
     setTitle("");
     setDescription("");
     setPrice("");
@@ -98,17 +94,27 @@ export default function AddProduct({ onAdd }) {
           onChange={(e) => setPrice(e.target.value)}
           required
         />
+
         <input
-  type="file"
-  accept="image/*"
-  multiple // Ensure this is here
-  onChange={handleAdditionalImagesChange}
-  ref={additionalImagesInputRef}
-/>
-        <button type="submit" className="add-product-button">Add Product</button>
+          type="file"
+          accept="image/*"
+          onChange={handleThumbnailChange}
+          ref={thumbnailInputRef}
+        />
+
+        <input
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={handleAdditionalImagesChange}
+          ref={additionalImagesInputRef}
+        />
+
+        <button type="submit" className="add-product-button">
+          Add Product
+        </button>
       </form>
 
-    
       {thumbnail && (
         <div className="image-preview">
           <img
@@ -122,7 +128,6 @@ export default function AddProduct({ onAdd }) {
         </div>
       )}
 
-      {/* Additional Images Preview with X to delete */}
       {additionalImages.length > 0 && (
         <div>
           {additionalImages.map((image, index) => (
