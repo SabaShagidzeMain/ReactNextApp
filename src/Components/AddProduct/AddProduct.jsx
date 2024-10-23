@@ -10,6 +10,7 @@ export default function AddProduct({ onAdd }) {
   const [thumbnail, setThumbnail] = useState(null);
   const [additionalImages, setAdditionalImages] = useState([]);
   
+  
   const thumbnailInputRef = useRef(null);
   const additionalImagesInputRef = useRef(null);
 
@@ -26,18 +27,21 @@ export default function AddProduct({ onAdd }) {
 
   const handleAdditionalImagesChange = (e) => {
     const files = Array.from(e.target.files);
+    console.log('Files:', files); // Add this line to check the files array
     const imageReaders = files.map((file) => {
       return new Promise((resolve) => {
         const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
+        reader.onloadend = () => resolve(reader.result); // Set base64 string
         reader.readAsDataURL(file);
       });
     });
-
+  
     Promise.all(imageReaders).then((images) => {
-      setAdditionalImages(images);
+      console.log('Images:', images); // Add this line to check the images array
+      setAdditionalImages((prevImages) => [...prevImages, ...images]); // Append new images to the existing ones
     });
   };
+  
 
   const handleDeleteThumbnail = () => {
     setThumbnail(null);
@@ -95,12 +99,12 @@ export default function AddProduct({ onAdd }) {
           required
         />
         <input
-          type="file"
-          accept="image/*"
-          onChange={handleThumbnailChange}
-          ref={thumbnailInputRef}
-          required
-        />
+  type="file"
+  accept="image/*"
+  multiple // Ensure this is here
+  onChange={handleAdditionalImagesChange}
+  ref={additionalImagesInputRef}
+/>
         <button type="submit" className="add-product-button">Add Product</button>
       </form>
 
@@ -121,7 +125,6 @@ export default function AddProduct({ onAdd }) {
       {/* Additional Images Preview with X to delete */}
       {additionalImages.length > 0 && (
         <div>
-          <h3>Additional Images Preview:</h3>
           {additionalImages.map((image, index) => (
             <div key={index} className="image-preview">
               <img
