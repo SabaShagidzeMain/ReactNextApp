@@ -17,11 +17,13 @@ export default function Store({ searchParams }) {
   const sortOption = searchParams.sort || "";
 
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Track loading state
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null); // For delete confirmation
 
   useEffect(() => {
     const fetchInitialProducts = async () => {
+      setIsLoading(true); // Start loading
       const savedProducts =
         JSON.parse(localStorage.getItem("localProducts")) || [];
       let fetchedProducts = [];
@@ -36,6 +38,7 @@ export default function Store({ searchParams }) {
         product.title.toLowerCase().includes(query.toLowerCase())
       );
       setProducts(filteredProducts);
+      setIsLoading(false); // Finish loading
     };
     fetchInitialProducts();
   }, [query]);
@@ -98,12 +101,24 @@ export default function Store({ searchParams }) {
     setProductToDelete(null); // Close the confirmation dialog without deleting
   };
 
+  if (isLoading) {
+    return (
+      <div className="loading-screen">
+        <div className="spinner"></div>
+        <p>Loading products...</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <Header />
       <main className="main store-main">
         <SearchSort />
-        <button className="AddNewProduct-button" onClick={() => setShowAddProduct(true)}>
+        <button
+          className="AddNewProduct-button"
+          onClick={() => setShowAddProduct(true)}
+        >
           Add New Product
         </button>
 
@@ -111,12 +126,20 @@ export default function Store({ searchParams }) {
         {showAddProduct && (
           <>
             {/* Modal Overlay */}
-            <div className="modal-overlay" onClick={() => setShowAddProduct(false)}></div>
+            <div
+              className="modal-overlay"
+              onClick={() => setShowAddProduct(false)}
+            ></div>
 
             {/* Modal Content */}
             <div className="modal">
               <div className="modal-content">
-                <span className="close-modal" onClick={() => setShowAddProduct(false)}>&times;</span>
+                <span
+                  className="close-modal"
+                  onClick={() => setShowAddProduct(false)}
+                >
+                  &times;
+                </span>
                 <AddProduct onAdd={addNewProduct} />
               </div>
             </div>
@@ -134,7 +157,10 @@ export default function Store({ searchParams }) {
                   desc={product.description}
                 />
               </Link>
-              <button className="delete-button" onClick={() => confirmDelete(product.id)}>
+              <button
+                className="delete-button"
+                onClick={() => confirmDelete(product.id)}
+              >
                 Delete
               </button>
 
