@@ -127,12 +127,18 @@ export default function Store({ searchParams }) {
 
               {/* Confirmation Dialog */}
               {productToDelete === product.id && (
-                <div className="confirmation-dialog">
-                  <p>Are you sure you want to delete this product?</p>
-                  <button onClick={() => handleDelete(product.id)}>Yes</button>
-                  <button onClick={cancelDelete}>No</button>
-                </div>
-              )}
+  <>
+    {/* Modal Overlay */}
+    <div className="modal-overlay" onClick={cancelDelete}></div>
+
+    {/* Confirmation Dialog */}
+    <div className="confirmation-dialog">
+      <p>Are you sure you want to delete this product?</p>
+      <button onClick={() => handleDelete(product.id)}>Yes</button>
+      <button onClick={cancelDelete}>No</button>
+    </div>
+  </>
+)}
             </div>
           ))}
         </div>

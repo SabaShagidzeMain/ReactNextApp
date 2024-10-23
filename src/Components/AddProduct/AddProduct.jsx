@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 "use client";
 import { useState } from "react";
+import "./AddProduct.css";
 
 export default function AddProduct({ onAdd }) {
   const [title, setTitle] = useState("");
