@@ -63,3 +63,30 @@
     box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
   }
   
+  .image-preview {
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  .delete-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark background to contrast the white X */
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    transition: background-color 0.3s ease;
+  }
+  
+  .delete-icon:hover {
+    background-color: rgba(0, 0, 0, 1); /* Darker background on hover */
+  }
