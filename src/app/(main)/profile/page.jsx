@@ -44,7 +44,6 @@ export default function Profile() {
             <img className="user-image" src={user.image} alt={user.firstName} />
           </div>
           <div className="user-info-wrapper">
-            <p className="user-header">Edit Profile</p>
             <div className="user-info-inner">
               <div className="user-info-col">
                 <div className="user-info-block">
