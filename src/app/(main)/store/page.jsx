@@ -18,22 +18,25 @@ export default function Store({ searchParams }) {
 
   const [products, setProducts] = useState([]);
   const [showAddProduct, setShowAddProduct] = useState(false);
-  const [productToDelete, setProductToDelete] = useState(null);
+  const [productToDelete, setProductToDelete] = useState(null); // For delete confirmation
 
   useEffect(() => {
     const fetchInitialProducts = async () => {
       const savedProducts =
         JSON.parse(localStorage.getItem("localProducts")) || [];
-  
-      if (savedProducts.length === 0 || query !== "") {
-        const fetchedProducts = await fetchProducts(query);
-        localStorage.setItem("localProducts", JSON.stringify(fetchedProducts));
-        setProducts(fetchedProducts);
-      } else {
-        setProducts(savedProducts);
+      let fetchedProducts = [];
+      if (savedProducts.length === 0) {
+        fetchedProducts = await fetchProducts(query);
       }
+      const allProducts = [...savedProducts, ...fetchedProducts];
+      const uniqueProducts = Array.from(
+        new Map(allProducts.map((item) => [item.id, item])).values()
+      );
+      const filteredProducts = uniqueProducts.filter((product) =>
+        product.title.toLowerCase().includes(query.toLowerCase())
+      );
+      setProducts(filteredProducts);
     };
-  
     fetchInitialProducts();
   }, [query]);
 
