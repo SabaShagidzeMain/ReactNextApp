@@ -1,10 +1,40 @@
+"use client";
 import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
 import "./profile.css";
 import { fetchUserDetails } from "@/Utilities/fetchUserDetails";
 
-export default async function Profile() {
-  const user = await fetchUserDetails();
+import { useState, useEffect } from "react";
+
+export default function Profile() {
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadUserDetails() {
+      try {
+        const userData = await fetchUserDetails();
+        setUser(userData);
+      } catch (err) {
+        setError("Failed to load user details.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadUserDetails();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
     <>
       <Header />
