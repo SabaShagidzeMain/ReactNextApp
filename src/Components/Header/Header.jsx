@@ -1,16 +1,37 @@
 "use client";
-
-import { useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import LogOutBtn from "../LogOutBtn/LogOutBtn";
+import { fetchUserDetails } from "@/Utilities/fetchUserDetails";
 import Link from "next/link";
 import "./Header.css";
 
 const Header = () => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const navRef = useRef();
 
   const showNavbar = () => {
     navRef.current.classList.toggle("responsive_nav");
   };
+
+  useEffect(() => {
+    async function loadUserDetails() {
+      try {
+        const userData = await fetchUserDetails();
+        setUser(userData);
+      } catch (err) {
+        setError("Failed to load user details.");
+        console.error(error, err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadUserDetails();
+  }, []);
 
   return (
     <header className="header">
@@ -33,12 +54,23 @@ const Header = () => {
             Store
           </Link>
           <Link href="/profile">
-            <img
-              src="/assets/serious-man-thinking_1149-1328.avif"
-              alt=""
-              className="profile-image"
-            />
+            {loading ? (
+              <img
+                src="/assets/profile-icon.png"
+                alt="profile icon"
+                className="profile-image"
+              />
+            ) : (
+              user && (
+                <img
+                  src={user.image}
+                  alt={user.name}
+                  className="profile-image"
+                />
+              )
+            )}
           </Link>
+          <LogOutBtn />
         </div>
         <button className="nav-btn nav-close-btn" onClick={showNavbar}>
           <FaTimes />

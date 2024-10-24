@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import AuthChecker from "@/Utilities/AuthChecker";
 import "./globals.css";
 
 export default function RootLayout({ children }) {
@@ -8,7 +9,7 @@ export default function RootLayout({ children }) {
         <title>Gaming App</title>
       </head>
       <body>
-        <div id="root">{children}</div>
+        <div id="root"><AuthChecker>{children}</AuthChecker></div>
       </body>
     </html>
   );
