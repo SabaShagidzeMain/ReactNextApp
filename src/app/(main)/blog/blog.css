@@ -56,15 +56,6 @@
   color: #a6000f;
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 .confirmation-dialog-overlay {
   position: absolute;
   top: 0;
