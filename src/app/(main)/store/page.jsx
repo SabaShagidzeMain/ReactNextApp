@@ -20,9 +20,9 @@ export default function Store({ searchParams }) {
   const sortOption = searchParams.sort || "";
 
   const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // Track loading state
+  const [isLoading, setIsLoading] = useState(true);
   const [showAddProduct, setShowAddProduct] = useState(false);
-  const [productToDelete, setProductToDelete] = useState(null); // For delete confirmation
+  const [productToDelete, setProductToDelete] = useState(null);
 
   useEffect(() => {
     const fetchProductsData = async () => {
@@ -43,17 +43,17 @@ export default function Store({ searchParams }) {
   };
 
   const confirmDelete = (id) => {
-    setProductToDelete(id); // Set product to be deleted
+    setProductToDelete(id);
   };
 
   const handleDelete = (id) => {
     const updatedProducts = handleDeleteProduct(id, products);
     setProducts(updatedProducts);
-    setProductToDelete(null); // Close the confirmation dialog after deletion
+    setProductToDelete(null);
   };
 
   const cancelDelete = () => {
-    setProductToDelete(null); // Close the confirmation dialog without deleting
+    setProductToDelete(null);
   };
 
   if (isLoading) {
