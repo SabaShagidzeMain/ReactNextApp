@@ -93,3 +93,187 @@
     padding: 0.5rem;
   }
 }
+
+.confirmation-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 300px;
+  text-align: center;
+}
+
+.confirmation-dialog p {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+.confirmation-dialog button {
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.confirmation-dialog button:first-of-type {
+  background-color: #dc3545;
+  color: white;
+}
+
+.confirmation-dialog button:first-of-type:hover {
+  background-color: #c82333;
+}
+
+.confirmation-dialog button:last-of-type {
+  background-color: #6c757d;
+  color: white;
+}
+
+.confirmation-dialog button:last-of-type:hover {
+  background-color: #5a6268;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.delete-button {
+  position: relative !important;
+  width: 8rem;
+  border-radius: 10px !important;
+  display: inline-block;
+  background-color: #ff4b4b;
+  color: #fff;
+  padding: 8px 20px;
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  z-index: 1;
+}
+
+.delete-button::before {
+  content: "";
+  position: relative;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.5s ease;
+  z-index: -1; /* Ensures this effect is behind the button text */
+}
+
+.delete-button:hover {
+  background-color: #e04646;
+  box-shadow: 0px 8px 20px rgba(255, 75, 75, 0.4);
+}
+
+.delete-button:active {
+  transform: scale(0.95);
+}
+
+.delete-button:hover::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.delete-button:focus {
+  box-shadow: 0 0 0 3px rgba(255, 75, 75, 0.5);
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 500px;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  z-index: 1000;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  position: relative;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  color: #333;
+  cursor: pointer;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.AddNewProduct-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 30px; 
+  font-size: 16px; 
+  font-weight: bold;
+  border: none; 
+  border-radius: 30px; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  display: inline-block; 
+}
+
+.AddNewProduct-button:hover {
+  background-color: #43a047;
+  box-shadow: 0 8px 20px rgba(67, 160, 71, 0.4); 
+}
+
+.AddNewProduct-button:active {
+  transform: scale(0.95);
+}
+
+.AddNewProduct-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.5); 
+}
+
