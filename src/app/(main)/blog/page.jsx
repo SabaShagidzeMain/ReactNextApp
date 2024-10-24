@@ -5,69 +5,33 @@ import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
 import Link from "next/link";
 import AddBlog from "@/Components/AddBlog/AddBlog";
-import { fetchPosts } from "@/Utilities/fetchPosts";
+import { fetchPosts } from "@/Utilities/BlogUtilities/fetchPosts";
 import { apiPost } from "@/Utilities/apiPost";
+import {
+  fetchAndUpdatePosts,
+  handleDeletePost,
+  handleAddNewPost,
+} from "@/Utilities/BlogUtilities/editBlogs";
 import "./blog.css";
 
 export default function Blog() {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [postToDelete, setPostToDelete] = useState(null); // For delete confirmation
+  const [postToDelete, setPostToDelete] = useState(null);
 
   useEffect(() => {
-    const fetchAndUpdatePosts = async () => {
-      const savedPosts = JSON.parse(localStorage.getItem("localPosts")) || [];
-      const fetchedPosts = await fetchPosts();
-
-      const allPosts = [...savedPosts, ...fetchedPosts];
-      const usedIds = new Set();
-      const normalizedPosts = allPosts.map((post) => {
-        let id = post.id;
-        while (usedIds.has(id)) {
-          id += 1;
-        }
-        usedIds.add(id);
-        return { ...post, id };
-      });
-
-      setPosts(normalizedPosts);
-      setIsLoading(false);
-    };
-
     if (typeof window !== "undefined") {
-      fetchAndUpdatePosts();
+      fetchAndUpdatePosts(setPosts, setIsLoading, fetchPosts);
     }
   }, []);
 
-  const handleDelete = (id) => {
-    setPosts((prev) => {
-      const updatedPosts = prev.filter((element) => element.id !== id);
-      localStorage.setItem("localPosts", JSON.stringify(updatedPosts));
-      return updatedPosts;
-    });
-    apiPost(id, "DELETE");
-    setPostToDelete(null); // Close confirmation after deletion
-  };
+  const handleDelete = (id) =>
+    handleDeletePost(id, setPosts, apiPost, setPostToDelete);
 
-  const confirmDelete = (id) => {
-    setPostToDelete(id); // Set post to be deleted
-  };
+  const addNewPost = (newPost) => handleAddNewPost(newPost, setPosts);
 
-  const cancelDelete = () => {
-    setPostToDelete(null); // Close confirmation dialog without deleting
-  };
-
-  const addNewPost = (newPost) => {
-    setPosts((prevPosts) => {
-      const newId =
-        prevPosts.length > 0
-          ? Math.max(...prevPosts.map((post) => post.id)) + 1
-          : 1;
-      const updatedPosts = [{ ...newPost, id: newId }, ...prevPosts];
-      localStorage.setItem("localPosts", JSON.stringify(updatedPosts));
-      return updatedPosts;
-    });
-  };
+  const confirmDelete = (id) => setPostToDelete(id);
+  const cancelDelete = () => setPostToDelete(null);
 
   if (isLoading) {
     return (
@@ -106,7 +70,6 @@ export default function Blog() {
                     </button>
                   </div>
 
-                  {/* Confirmation Dialog */}
                   {postToDelete === post.id && (
                     <div className="confirmation-dialog-overlay">
                       <div className="confirmation-dialog">

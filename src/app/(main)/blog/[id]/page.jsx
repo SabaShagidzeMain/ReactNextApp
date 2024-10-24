@@ -2,10 +2,29 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchPost } from "@/Utilities/fetchPost";
+import { fetchPost } from "@/Utilities/BlogUtilities/fetchPost";
 import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
 import "./singleblog.css";
+import {
+  loadPost,
+  fetchLocalPost,
+  updateLocalStorage,
+} from "@/Utilities/BlogUtilities/editBlog";
+
+// Loading and Error Components
+const Loading = () => (
+  <div className="loading-screen">
+    <div className="spinner"></div>
+    <p>Loading post...</p>
+  </div>
+);
+
+const ErrorMessage = ({ message }) => (
+  <div className="loading-screen">
+    <p>{message}</p>
+  </div>
+);
 
 export default function PostDetail({ params }) {
   const { id } = params;
@@ -17,33 +36,29 @@ export default function PostDetail({ params }) {
   const [body, setBody] = useState("");
 
   useEffect(() => {
-    const localPosts = JSON.parse(localStorage.getItem("localPosts")) || [];
-    const localPost = localPosts.find((post) => post.id === Number(id));
-
+    const localPost = loadPost(id);
     if (localPost) {
       setPost(localPost);
       setTitle(localPost.title);
       setBody(localPost.body);
       setLoading(false);
-    } else {
-      const fetchLocalPost = async () => {
-        try {
-          const fetchedPost = await fetchPost(id);
-          if (!fetchedPost) {
-            setError("Post not found.");
-          } else {
-            setPost(fetchedPost);
-            setTitle(fetchedPost.title);
-            setBody(fetchedPost.body);
-          }
-        } catch {
-          setError("Error fetching post.");
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchLocalPost();
+      return; // Early return to avoid fetching
     }
+
+    const fetchAndSetPost = async () => {
+      try {
+        const fetchedPost = await fetchLocalPost(id, fetchPost);
+        setPost(fetchedPost);
+        setTitle(fetchedPost.title);
+        setBody(fetchedPost.body);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAndSetPost();
   }, [id]);
 
   const handleTitleChange = (e) => setTitle(e.target.value);
@@ -51,49 +66,15 @@ export default function PostDetail({ params }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const updatedPost = {
-      ...post,
-      title,
-      body,
-    };
-
-    // Update local storage
-    const localPosts = JSON.parse(localStorage.getItem("localPosts")) || [];
-    const updatedLocalPosts = localPosts.map((p) =>
-      p.id === updatedPost.id ? updatedPost : p
-    );
-
-    localStorage.setItem("localPosts", JSON.stringify(updatedLocalPosts));
-
+    const updatedPost = { ...post, title, body };
+    updateLocalStorage(updatedPost);
     setPost(updatedPost);
     setIsEditing(false);
   };
 
-  if (loading) {
-    return (
-      <div className="loading-screen">
-        <div className="spinner"></div>
-        <p>Loading post...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="loading-screen">
-        <p>{error}</p>
-      </div>
-    );
-  }
-
-  if (!post) {
-    return (
-      <div className="loading-screen">
-        <p>No blog posts found.</p>
-      </div>
-    );
-  }
+  if (loading) return <Loading />;
+  if (error) return <ErrorMessage message={error} />;
+  if (!post) return <ErrorMessage message="No blog posts found." />;
 
   return (
     <>
