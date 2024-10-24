@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { apiPost } from "@/Utilities/apiPost";
+import { apiPost } from "@/Utilities/BlogUtilities/apiPost";
 import "./AddBlog.css";
 
 export default function AddBlog({ addNewPost }) {

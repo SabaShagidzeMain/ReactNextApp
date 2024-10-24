@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 "use client";
 import { useEffect, useState } from "react";
-import { fetchProduct } from "@/Utilities/fetchProduct";
+import { fetchProduct } from "@/Utilities/ProductUtilities/fetchProduct";
 import "./singleproduct.css";
 
 export default function ProductDetail({ params }) {

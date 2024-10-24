@@ -7,7 +7,7 @@ import SearchSort from "@/Components/SearchSort/SearchSort";
 import AddProduct from "@/Components/AddProduct/AddProduct";
 
 import { useState, useEffect } from "react";
-import { fetchProducts } from "@/Utilities/fetchProducts";
+import { fetchProducts } from "@/Utilities/ProductUtilities/fetchProducts";
 import Link from "next/link";
 
 export default function Store({ searchParams }) {

@@ -10,7 +10,6 @@ import {
   updateLocalStorage,
 } from "@/Utilities/BlogUtilities/editBlog";
 
-// Loading and Error Components
 const Loading = () => (
   <div className="loading-screen">
     <div className="spinner"></div>

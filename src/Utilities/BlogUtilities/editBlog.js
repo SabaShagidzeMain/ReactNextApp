@@ -1,5 +1,3 @@
-// singleBlogUtils.js
-
 export const loadPost = (id) => {
   const localPosts = JSON.parse(localStorage.getItem("localPosts")) || [];
   return localPosts.find((post) => post.id === Number(id));

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import AddBlog from "@/Components/AddBlog/AddBlog";
 import { fetchPosts } from "@/Utilities/BlogUtilities/fetchPosts";
-import { apiPost } from "@/Utilities/apiPost";
+import { apiPost } from "@/Utilities/BlogUtilities/apiPost";
 import {
   fetchAndUpdatePosts,
   handleDeletePost,

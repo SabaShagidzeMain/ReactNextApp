@@ -1,4 +1,3 @@
-
 export async function apiPost(obj, meth) {
   const url = "https://dummyjson.com/posts";
 
