@@ -127,8 +127,8 @@
 
 .delete-button {
   position: relative !important;
-  width: 8rem;
-  border-radius: 10px !important;
+  width: 8rem !important;
+  border-radius: 25px !important;
   display: inline-block;
   background-color: #ff4b4b;
   color: #fff;
@@ -137,7 +137,6 @@
   font-size: 16px;
   font-weight: 600;
   border: none;
-  border-radius: 25px;
   cursor: pointer;
   overflow: hidden;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
@@ -146,29 +145,18 @@
 
 .delete-button::before {
   content: "";
-  position: relative;
   top: 50%;
   left: 50%;
-  width: 300%;
-  height: 300%;
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   transform: translate(-50%, -50%) scale(0);
   transition: transform 0.5s ease;
-  z-index: -1; /* Ensures this effect is behind the button text */
+  z-index: -1;
 }
 
 .delete-button:hover {
   background-color: #e04646;
   box-shadow: 0px 8px 20px rgba(255, 75, 75, 0.4);
-}
-
-.delete-button:active {
-  transform: scale(0.95);
-}
-
-.delete-button:hover::before {
-  transform: translate(-50%, -50%) scale(1);
 }
 
 .delete-button:focus {
