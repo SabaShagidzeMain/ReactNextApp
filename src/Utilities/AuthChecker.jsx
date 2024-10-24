@@ -5,7 +5,8 @@ import { useEffect } from "react";
 const AuthChecker = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const token = localStorage.getItem("accessToken");
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
 
   useEffect(() => {
     if (!token && pathname !== "/login") {
