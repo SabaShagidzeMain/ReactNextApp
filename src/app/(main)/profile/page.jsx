@@ -28,7 +28,11 @@ export default function Profile() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="loadnig__spinner">
+        <div className="spinner"></div>
+      </div>
+    );
   }
 
   if (error) {
