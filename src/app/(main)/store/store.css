@@ -47,23 +47,6 @@
   overflow: auto;
 }
 
-.loading-screen {
-  background: #272727;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.spinner {
-  border: 8px solid #600d10;
-  border-top: 8px solid #fff;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 0.4s linear infinite;
-}
-
 .product-link {
   text-decoration: none;
   color: inherit;
@@ -201,7 +184,6 @@
   box-shadow: 0 0 0 3px rgba(255, 75, 75, 0.5);
 }
 
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -240,7 +222,6 @@
   cursor: pointer;
 }
 
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -253,19 +234,19 @@
 .AddNewProduct-button {
   background-color: #4caf50;
   color: white;
-  padding: 12px 30px; 
-  font-size: 16px; 
+  padding: 12px 30px;
+  font-size: 16px;
   font-weight: bold;
-  border: none; 
-  border-radius: 30px; 
-  cursor: pointer; 
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  display: inline-block; 
+  display: inline-block;
 }
 
 .AddNewProduct-button:hover {
   background-color: #43a047;
-  box-shadow: 0 8px 20px rgba(67, 160, 71, 0.4); 
+  box-shadow: 0 8px 20px rgba(67, 160, 71, 0.4);
 }
 
 .AddNewProduct-button:active {
@@ -274,6 +255,5 @@
 
 .AddNewProduct-button:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.5); 
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.5);
 }
-

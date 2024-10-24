@@ -17,7 +17,6 @@ function Authorization() {
     if (response.ok && data.accessToken) {
       localStorage.setItem("accessToken", data.accessToken);
       router.push("/");
-      console.log("token set:", data.accessToken);
     } else {
       console.log("login failed:", data.message);
     }

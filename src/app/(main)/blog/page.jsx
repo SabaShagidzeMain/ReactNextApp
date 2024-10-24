@@ -98,7 +98,12 @@ export default function Blog() {
                     <Link className="blog-link Link" href={`/blog/${post.id}`}>
                       Open Post
                     </Link>
-                    <button className="delete-button" onClick={() => confirmDelete(post.id)}>DELETE</button>
+                    <button
+                      className="delete-button"
+                      onClick={() => confirmDelete(post.id)}
+                    >
+                      DELETE
+                    </button>
                   </div>
 
                   {/* Confirmation Dialog */}
@@ -106,10 +111,16 @@ export default function Blog() {
                     <div className="confirmation-dialog-overlay">
                       <div className="confirmation-dialog">
                         <p>Are you sure you want to delete this blog post?</p>
-                        <button className="confirm-button" onClick={() => handleDelete(post.id)}>
+                        <button
+                          className="confirm-button"
+                          onClick={() => handleDelete(post.id)}
+                        >
                           Yes
                         </button>
-                        <button className="cancel-button" onClick={cancelDelete}>
+                        <button
+                          className="cancel-button"
+                          onClick={cancelDelete}
+                        >
                           No
                         </button>
                       </div>

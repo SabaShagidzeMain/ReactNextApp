@@ -18,7 +18,12 @@ const AuthChecker = ({ children }) => {
   }, [pathname, token, router]);
 
   if (loading) {
-    return null;
+    return (
+      <div className="loading-screen">
+        <div className="spinner"></div>
+        <p>Loading...</p>
+      </div>
+    );
   }
 
   return <div>{children}</div>;

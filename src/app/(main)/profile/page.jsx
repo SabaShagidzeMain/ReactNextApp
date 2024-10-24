@@ -29,8 +29,9 @@ export default function Profile() {
 
   if (loading) {
     return (
-      <div className="loadnig__spinner">
+      <div className="loading-screen">
         <div className="spinner"></div>
+        <p>Loading profile...</p>
       </div>
     );
   }

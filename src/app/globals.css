@@ -12,3 +12,23 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+
+.loading-screen {
+  background: #272727;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  height: 100vh;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.spinner {
+  border: 8px solid #600d10;
+  border-top: 8px solid #fff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 0.4s linear infinite;
+}
