@@ -16,6 +16,7 @@ export default function ProductDetail({ params }) {
   const [price, setPrice] = useState(0);
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
+  const [thumbnail, setThumbnail] = useState("");
   const [originalProduct, setOriginalProduct] = useState(null);
 
   useEffect(() => {
@@ -29,6 +30,7 @@ export default function ProductDetail({ params }) {
         setPrice(fetchedProduct.price);
         setStock(fetchedProduct.stock);
         setImages(fetchedProduct.images || []);
+        setThumbnail(fetchedProduct.thumbnail || fetchedProduct.images[0] || "");
       } else {
         console.error("Product not found");
       }
@@ -42,6 +44,10 @@ export default function ProductDetail({ params }) {
       const updatedImages = prevImages.filter((_, i) => i !== index);
       return updatedImages;
     });
+
+    if (images[index] === thumbnail) {
+      setThumbnail(images[0] || "");
+    }
   };
 
   const handleUploadImage = (e) => {
@@ -58,7 +64,14 @@ export default function ProductDetail({ params }) {
 
     Promise.all(fileReaders).then((newImages) => {
       setImages((prevImages) => [...prevImages, ...newImages]);
+      if (!thumbnail && newImages.length > 0) {
+        setThumbnail(newImages[0]);
+      }
     });
+  };
+
+  const handleThumbnailSelect = (image) => {
+    setThumbnail(image);
   };
 
   const handleSubmit = async (e) => {
@@ -71,6 +84,7 @@ export default function ProductDetail({ params }) {
       price,
       stock,
       images,
+      thumbnail,
     };
 
     const localProducts =
@@ -91,6 +105,7 @@ export default function ProductDetail({ params }) {
       setPrice(originalProduct.price);
       setStock(originalProduct.stock);
       setImages(originalProduct.images || []);
+      setThumbnail(originalProduct.thumbnail || originalProduct.images[0] || ""); // Reset thumbnail
     }
     setIsEditing(false);
   };
@@ -140,7 +155,13 @@ export default function ProductDetail({ params }) {
 
               <div className="image-preview">
                 {images.map((image, index) => (
-                  <div key={index} className="image-container">
+                  <div
+                    key={index}
+                    className={`image-container ${
+                      image === thumbnail ? "selected-thumbnail" : ""
+                    }`}
+                    onClick={() => handleThumbnailSelect(image)}
+                  >
                     <img
                       src={image}
                       alt={`Product Image ${index}`}
@@ -148,11 +169,15 @@ export default function ProductDetail({ params }) {
                     />
                     <button
                       type="button"
-                      onClick={() => handleDeleteImage(index)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteImage(index);
+                      }}
                       className="delete-button"
                     >
-                      Delete
+                      &times;
                     </button>
+                    {image === thumbnail && <span className="thumbnail-label">Thumbnail</span>}
                   </div>
                 ))}
               </div>
@@ -182,13 +207,15 @@ export default function ProductDetail({ params }) {
               <p>{product.description}</p>
               <p>Price: ${product.price}</p>
               <p>Stock: {product.stock}</p>
-              <div className="image-preview">
+              <div className="image-preview ">
                 {product.images.map((image, index) => (
                   <img
                     key={index}
                     src={image}
                     alt={`Product Image ${index}`}
-                    className="image-thumb"
+                    className={`image-thumb ${
+                      image === product.thumbnail ? "selected-thumbnail" : ""
+                    }`}
                   />
                 ))}
               </div>
