@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Header from "@/Components/Header/Header";
-import Footer from "@/Components/Footer/Footer";
 import Link from "next/link";
 import AddBlog from "@/Components/AddBlog/AddBlog";
 import { fetchPosts } from "@/Utilities/BlogUtilities/fetchPosts";
@@ -44,7 +42,6 @@ export default function Blog() {
 
   return (
     <>
-      <Header />
       <AddBlog addNewPost={addNewPost} />
       <main className="main">
         <div className="blog-inner-container">
@@ -95,7 +92,6 @@ export default function Blog() {
           )}
         </div>
       </main>
-      <Footer />
     </>
   );
 }

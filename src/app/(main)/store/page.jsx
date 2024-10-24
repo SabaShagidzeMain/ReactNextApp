@@ -2,8 +2,6 @@
 "use client";
 import "./store.css";
 
-import Header from "@/Components/Header/Header";
-import Footer from "@/Components/Footer/Footer";
 import ProductCard from "@/Components/ProductCard/ProductCard";
 import SearchSort from "@/Components/SearchSort/SearchSort";
 import AddProduct from "@/Components/AddProduct/AddProduct";
@@ -112,7 +110,6 @@ export default function Store({ searchParams }) {
 
   return (
     <>
-      <Header />
       <main className="main store-main">
         <SearchSort />
         <button
@@ -173,7 +170,9 @@ export default function Store({ searchParams }) {
                   {/* Confirmation Dialog */}
                   <div className="confirmation-dialog">
                     <p>Are you sure you want to delete this product?</p>
-                    <button onClick={() => handleDelete(product.id)}>Yes</button>
+                    <button onClick={() => handleDelete(product.id)}>
+                      Yes
+                    </button>
                     <button onClick={cancelDelete}>No</button>
                   </div>
                 </>
@@ -182,7 +181,6 @@ export default function Store({ searchParams }) {
           ))}
         </div>
       </main>
-      <Footer />
     </>
   );
 }

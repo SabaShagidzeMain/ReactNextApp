@@ -1,11 +1,8 @@
-import Header from "@/Components/Header/Header";
-import Footer from "@/Components/Footer/Footer";
 import "./contact.css";
 
 const page = () => {
   return (
     <>
-      <Header />
       <main className="main contact-main">
         <div className="contactWrapper">
           <form action="#">
@@ -51,7 +48,6 @@ const page = () => {
           </form>
         </div>
       </main>
-      <Footer />
     </>
   );
 };

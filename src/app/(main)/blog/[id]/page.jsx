@@ -3,8 +3,6 @@
 
 import { useEffect, useState } from "react";
 import { fetchPost } from "@/Utilities/BlogUtilities/fetchPost";
-import Header from "@/Components/Header/Header";
-import Footer from "@/Components/Footer/Footer";
 import "./singleblog.css";
 import {
   loadPost,
@@ -78,7 +76,6 @@ export default function PostDetail({ params }) {
 
   return (
     <>
-      <Header />
       <main className="main blogpage-main">
         <div className="post-container">
           {isEditing ? (
@@ -119,7 +116,6 @@ export default function PostDetail({ params }) {
           )}
         </div>
       </main>
-      <Footer />
     </>
   );
 }

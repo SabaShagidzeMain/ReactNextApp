@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
 "use client";
 import { useEffect, useState } from "react";
-import Header from "@/Components/Header/Header";
-import Footer from "@/Components/Footer/Footer";
 import { fetchProduct } from "@/Utilities/fetchProduct";
 import "./singleproduct.css";
 
@@ -30,7 +28,9 @@ export default function ProductDetail({ params }) {
         setPrice(fetchedProduct.price);
         setStock(fetchedProduct.stock);
         setImages(fetchedProduct.images || []);
-        setThumbnail(fetchedProduct.thumbnail || fetchedProduct.images[0] || "");
+        setThumbnail(
+          fetchedProduct.thumbnail || fetchedProduct.images[0] || ""
+        );
       } else {
         console.error("Product not found");
       }
@@ -105,7 +105,9 @@ export default function ProductDetail({ params }) {
       setPrice(originalProduct.price);
       setStock(originalProduct.stock);
       setImages(originalProduct.images || []);
-      setThumbnail(originalProduct.thumbnail || originalProduct.images[0] || ""); // Reset thumbnail
+      setThumbnail(
+        originalProduct.thumbnail || originalProduct.images[0] || ""
+      ); // Reset thumbnail
     }
     setIsEditing(false);
   };
@@ -120,7 +122,6 @@ export default function ProductDetail({ params }) {
 
   return (
     <>
-      <Header />
       <main className="main main-card">
         <div className="singleproduct-inner">
           {isEditing ? (
@@ -177,7 +178,9 @@ export default function ProductDetail({ params }) {
                     >
                       &times;
                     </button>
-                    {image === thumbnail && <span className="thumbnail-label">Thumbnail</span>}
+                    {image === thumbnail && (
+                      <span className="thumbnail-label">Thumbnail</span>
+                    )}
                   </div>
                 ))}
               </div>
@@ -229,7 +232,6 @@ export default function ProductDetail({ params }) {
           )}
         </div>
       </main>
-      <Footer />
     </>
   );
 }

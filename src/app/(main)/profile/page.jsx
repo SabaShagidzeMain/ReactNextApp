@@ -1,6 +1,4 @@
 "use client";
-import Header from "@/Components/Header/Header";
-import Footer from "@/Components/Footer/Footer";
 import "./profile.css";
 import { fetchUserDetails } from "@/Utilities/fetchUserDetails";
 
@@ -42,7 +40,6 @@ export default function Profile() {
 
   return (
     <>
-      <Header />
       <main className="main user-main">
         <div className="user-wrapper">
           <div className="user-picture-wrapper">
@@ -69,7 +66,6 @@ export default function Profile() {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 }
