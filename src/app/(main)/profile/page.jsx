@@ -1,6 +1,4 @@
 "use client";
-import Header from "@/Components/Header/Header";
-import Footer from "@/Components/Footer/Footer";
 import "./profile.css";
 import { fetchUserDetails } from "@/Utilities/fetchUserDetails";
 
@@ -29,8 +27,9 @@ export default function Profile() {
 
   if (loading) {
     return (
-      <div className="loadnig__spinner">
+      <div className="loading-screen">
         <div className="spinner"></div>
+        <p>Loading profile...</p>
       </div>
     );
   }
@@ -41,7 +40,6 @@ export default function Profile() {
 
   return (
     <>
-      <Header />
       <main className="main user-main">
         <div className="user-wrapper">
           <div className="user-picture-wrapper">
@@ -68,7 +66,6 @@ export default function Profile() {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 }

@@ -92,7 +92,6 @@ textarea.edit-input {
   transform: translateY(-3px);
 }
 
-
 .button-group {
   display: flex;
   justify-content: flex-start;
@@ -113,30 +112,4 @@ textarea.edit-input {
 .edit-button:hover {
   background-color: #8c1a1e;
   transform: translateY(-3px);
-}
-
-.loading-screen {
-  background: #272727;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.spinner {
-  border: 8px solid #600d10;
-  border-top: 8px solid #fff;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 0.4s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }

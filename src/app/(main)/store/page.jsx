@@ -2,14 +2,17 @@
 "use client";
 import "./store.css";
 
-import Header from "@/Components/Header/Header";
-import Footer from "@/Components/Footer/Footer";
 import ProductCard from "@/Components/ProductCard/ProductCard";
 import SearchSort from "@/Components/SearchSort/SearchSort";
 import AddProduct from "@/Components/AddProduct/AddProduct";
 
 import { useState, useEffect } from "react";
-import { fetchProducts } from "@/Utilities/fetchProducts";
+import {
+  fetchInitialProducts,
+  sortProducts,
+  addNewProduct,
+  handleDeleteProduct,
+} from "@/Utilities/ProductUtilities/editProducts";
 import Link from "next/link";
 
 export default function Store({ searchParams }) {
@@ -17,88 +20,40 @@ export default function Store({ searchParams }) {
   const sortOption = searchParams.sort || "";
 
   const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // Track loading state
+  const [isLoading, setIsLoading] = useState(true);
   const [showAddProduct, setShowAddProduct] = useState(false);
-  const [productToDelete, setProductToDelete] = useState(null); // For delete confirmation
+  const [productToDelete, setProductToDelete] = useState(null);
 
   useEffect(() => {
-    const fetchInitialProducts = async () => {
-      setIsLoading(true); // Start loading
-      const savedProducts =
-        JSON.parse(localStorage.getItem("localProducts")) || [];
-      let fetchedProducts = [];
-      if (savedProducts.length === 0) {
-        fetchedProducts = await fetchProducts(query);
-      }
-      const allProducts = [...savedProducts, ...fetchedProducts];
-      const uniqueProducts = Array.from(
-        new Map(allProducts.map((item) => [item.id, item])).values()
-      );
-      const filteredProducts = uniqueProducts.filter((product) =>
-        product.title.toLowerCase().includes(query.toLowerCase())
-      );
+    const fetchProductsData = async () => {
+      setIsLoading(true);
+      const filteredProducts = await fetchInitialProducts(query);
       setProducts(filteredProducts);
-      setIsLoading(false); // Finish loading
+      setIsLoading(false);
     };
-    fetchInitialProducts();
+    fetchProductsData();
   }, [query]);
 
-  const sortProducts = (products) => {
-    if (sortOption === "price-asc") {
-      return [...products].sort((a, b) => a.price - b.price);
-    } else if (sortOption === "price-desc") {
-      return [...products].sort((a, b) => b.price - a.price);
-    } else if (sortOption === "name-asc") {
-      return [...products].sort((a, b) => a.title.localeCompare(b.title));
-    } else if (sortOption === "name-desc") {
-      return [...products].sort((a, b) => b.title.localeCompare(a.title));
-    }
-    return products;
-  };
+  const sortedProducts = sortProducts(products, sortOption);
 
-  const sortedProducts = sortProducts(products);
-
-  const addNewProduct = (newProduct) => {
-    setProducts((prevProducts) => {
-      const newId =
-        prevProducts.length > 0
-          ? Math.max(...prevProducts.map((p) => p.id)) + 1
-          : 1;
-      const updatedProducts = [{ ...newProduct, id: newId }, ...prevProducts];
-      localStorage.setItem("localProducts", JSON.stringify(updatedProducts));
-      return updatedProducts;
-    });
+  const addNewProductHandler = (newProduct) => {
+    const updatedProducts = addNewProduct(newProduct, products);
+    setProducts(updatedProducts);
     setShowAddProduct(false);
   };
 
   const confirmDelete = (id) => {
-    setProductToDelete(id); // Set product to be deleted
+    setProductToDelete(id);
   };
 
   const handleDelete = (id) => {
-    setProducts((prevProducts) => {
-      const updatedProducts = prevProducts.filter(
-        (product) => product.id !== id
-      );
-
-      const localProducts =
-        JSON.parse(localStorage.getItem("localProducts")) || [];
-      const updatedLocalProducts = localProducts.filter(
-        (product) => product.id !== id
-      );
-
-      localStorage.setItem(
-        "localProducts",
-        JSON.stringify(updatedLocalProducts)
-      );
-
-      return updatedProducts;
-    });
-    setProductToDelete(null); // Close the confirmation dialog after deletion
+    const updatedProducts = handleDeleteProduct(id, products);
+    setProducts(updatedProducts);
+    setProductToDelete(null);
   };
 
   const cancelDelete = () => {
-    setProductToDelete(null); // Close the confirmation dialog without deleting
+    setProductToDelete(null);
   };
 
   if (isLoading) {
@@ -112,7 +67,6 @@ export default function Store({ searchParams }) {
 
   return (
     <>
-      <Header />
       <main className="main store-main">
         <SearchSort />
         <button
@@ -140,7 +94,7 @@ export default function Store({ searchParams }) {
                 >
                   &times;
                 </span>
-                <AddProduct onAdd={addNewProduct} />
+                <AddProduct onAdd={addNewProductHandler} />
               </div>
             </div>
           </>
@@ -173,7 +127,9 @@ export default function Store({ searchParams }) {
                   {/* Confirmation Dialog */}
                   <div className="confirmation-dialog">
                     <p>Are you sure you want to delete this product?</p>
-                    <button onClick={() => handleDelete(product.id)}>Yes</button>
+                    <button onClick={() => handleDelete(product.id)}>
+                      Yes
+                    </button>
                     <button onClick={cancelDelete}>No</button>
                   </div>
                 </>
@@ -182,7 +138,6 @@ export default function Store({ searchParams }) {
           ))}
         </div>
       </main>
-      <Footer />
     </>
   );
 }

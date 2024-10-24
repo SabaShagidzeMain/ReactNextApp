@@ -1,15 +1,16 @@
-/* eslint-disable react/prop-types */
-import AuthChecker from "@/Utilities/AuthChecker";
 import "./globals.css";
 
+export const metadata = {
+  title: "Gaming App",
+  description: "Web site created with Next.js.",
+};
+
+/* eslint-disable react/prop-types */
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        <title>Gaming App</title>
-      </head>
       <body>
-        <div id="root"><AuthChecker>{children}</AuthChecker></div>
+        <div id="root">{children}</div>
       </body>
     </html>
   );

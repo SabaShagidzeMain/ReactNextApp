@@ -1,11 +1,8 @@
-import Header from "@/Components/Header/Header";
-import Footer from "@/Components/Footer/Footer";
 import "./about.css";
 
 const About = () => {
   return (
     <>
-      <Header />
       <main className="main about-main">
         <div className="main-right">
           <div className="main-right-wrapper">
@@ -22,7 +19,6 @@ const About = () => {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 };

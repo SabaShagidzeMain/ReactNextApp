@@ -82,13 +82,6 @@ label {
   font-size: 1.2rem;
 }
 
-.loadnig__spinner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 15rem;
-}
-
 @media only screen and (max-width: 1024px) {
   .user-wrapper {
     flex-direction: column;
