@@ -18,7 +18,7 @@ function Authorization() {
       localStorage.setItem("accessToken", data.accessToken);
       router.push("/");
     } else {
-      console.log("login failed:", data.message);
+      alert(`Login failed: Invalid username or password`);
     }
   };
 
