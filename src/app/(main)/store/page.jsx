@@ -7,7 +7,12 @@ import SearchSort from "@/Components/SearchSort/SearchSort";
 import AddProduct from "@/Components/AddProduct/AddProduct";
 
 import { useState, useEffect } from "react";
-import { fetchProducts } from "@/Utilities/ProductUtilities/fetchProducts";
+import {
+  fetchInitialProducts,
+  sortProducts,
+  addNewProduct,
+  handleDeleteProduct,
+} from "@/Utilities/ProductUtilities/editProducts";
 import Link from "next/link";
 
 export default function Store({ searchParams }) {
@@ -20,52 +25,20 @@ export default function Store({ searchParams }) {
   const [productToDelete, setProductToDelete] = useState(null); // For delete confirmation
 
   useEffect(() => {
-    const fetchInitialProducts = async () => {
-      setIsLoading(true); // Start loading
-      const savedProducts =
-        JSON.parse(localStorage.getItem("localProducts")) || [];
-      let fetchedProducts = [];
-      if (savedProducts.length === 0) {
-        fetchedProducts = await fetchProducts(query);
-      }
-      const allProducts = [...savedProducts, ...fetchedProducts];
-      const uniqueProducts = Array.from(
-        new Map(allProducts.map((item) => [item.id, item])).values()
-      );
-      const filteredProducts = uniqueProducts.filter((product) =>
-        product.title.toLowerCase().includes(query.toLowerCase())
-      );
+    const fetchProductsData = async () => {
+      setIsLoading(true);
+      const filteredProducts = await fetchInitialProducts(query);
       setProducts(filteredProducts);
-      setIsLoading(false); // Finish loading
+      setIsLoading(false);
     };
-    fetchInitialProducts();
+    fetchProductsData();
   }, [query]);
 
-  const sortProducts = (products) => {
-    if (sortOption === "price-asc") {
-      return [...products].sort((a, b) => a.price - b.price);
-    } else if (sortOption === "price-desc") {
-      return [...products].sort((a, b) => b.price - a.price);
-    } else if (sortOption === "name-asc") {
-      return [...products].sort((a, b) => a.title.localeCompare(b.title));
-    } else if (sortOption === "name-desc") {
-      return [...products].sort((a, b) => b.title.localeCompare(a.title));
-    }
-    return products;
-  };
+  const sortedProducts = sortProducts(products, sortOption);
 
-  const sortedProducts = sortProducts(products);
-
-  const addNewProduct = (newProduct) => {
-    setProducts((prevProducts) => {
-      const newId =
-        prevProducts.length > 0
-          ? Math.max(...prevProducts.map((p) => p.id)) + 1
-          : 1;
-      const updatedProducts = [{ ...newProduct, id: newId }, ...prevProducts];
-      localStorage.setItem("localProducts", JSON.stringify(updatedProducts));
-      return updatedProducts;
-    });
+  const addNewProductHandler = (newProduct) => {
+    const updatedProducts = addNewProduct(newProduct, products);
+    setProducts(updatedProducts);
     setShowAddProduct(false);
   };
 
@@ -74,24 +47,8 @@ export default function Store({ searchParams }) {
   };
 
   const handleDelete = (id) => {
-    setProducts((prevProducts) => {
-      const updatedProducts = prevProducts.filter(
-        (product) => product.id !== id
-      );
-
-      const localProducts =
-        JSON.parse(localStorage.getItem("localProducts")) || [];
-      const updatedLocalProducts = localProducts.filter(
-        (product) => product.id !== id
-      );
-
-      localStorage.setItem(
-        "localProducts",
-        JSON.stringify(updatedLocalProducts)
-      );
-
-      return updatedProducts;
-    });
+    const updatedProducts = handleDeleteProduct(id, products);
+    setProducts(updatedProducts);
     setProductToDelete(null); // Close the confirmation dialog after deletion
   };
 
@@ -137,7 +94,7 @@ export default function Store({ searchParams }) {
                 >
                   &times;
                 </span>
-                <AddProduct onAdd={addNewProduct} />
+                <AddProduct onAdd={addNewProductHandler} />
               </div>
             </div>
           </>
