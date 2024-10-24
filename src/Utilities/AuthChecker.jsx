@@ -1,8 +1,9 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const AuthChecker = ({ children }) => {
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
   const token =
@@ -11,8 +12,14 @@ const AuthChecker = ({ children }) => {
   useEffect(() => {
     if (!token && pathname !== "/login") {
       router.push("/login");
+    } else {
+      setLoading(false);
     }
   }, [pathname, token, router]);
+
+  if (loading) {
+    return null;
+  }
 
   return <div>{children}</div>;
 };
