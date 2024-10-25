@@ -1,4 +1,4 @@
-// editProducts.js
+import { fetchProducts } from "./fetchProducts";
 
 export const fetchInitialProducts = async (query) => {
   const savedProducts = JSON.parse(localStorage.getItem("localProducts")) || [];
