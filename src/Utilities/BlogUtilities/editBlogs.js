@@ -1,10 +1,6 @@
-import { fetchPosts } from "./fetchPosts";
-
-// Helper function to normalize post IDs
 export const normalizePosts = (savedPosts, fetchedPosts) => {
   const allPosts = [...savedPosts, ...fetchedPosts];
   const usedIds = new Set();
-  const maxId = Math.max(0, ...allPosts.map((post) => post.id)); // Find the maximum ID to start from
 
   return allPosts.map((post) => {
     let id = post.id;
@@ -40,7 +36,7 @@ export const fetchAndUpdatePosts = async (
   } catch (error) {
     console.error("Error fetching posts:", error);
   } finally {
-    setIsLoading(false); // Ensure loading state is always set to false
+    setIsLoading(false); 
   }
 };
 
@@ -61,9 +57,8 @@ export const handleDeletePost = async (
     await apiPost(id, "DELETE");
   } catch (error) {
     console.error("Error deleting post:", error);
-    // Optional: Restore the deleted post if needed
   } finally {
-    setPostToDelete(null); // Close confirmation after deletion
+    setPostToDelete(null);
   }
 };
 
