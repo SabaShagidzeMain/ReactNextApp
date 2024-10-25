@@ -94,8 +94,7 @@
 }
 
 .save-button,
-.cancel-button{
-  
+.cancel-button {
   margin-top: 0;
 }
 
@@ -124,6 +123,15 @@
 
 .edit-button:hover {
   background-color: #0056b3;
+}
+
+.image-gallery {
+  display: flex;
+  gap: 1rem;
+}
+
+.image-gallery img {
+  border-radius: 10px;
 }
 
 @media screen and (max-width: 1200px) {
@@ -204,4 +212,3 @@
   object-fit: cover;
   border-radius: 6px;
 }
-

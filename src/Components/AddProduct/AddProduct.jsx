@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 "use client";
 import { useState, useRef } from "react";
 import "./AddProduct.css";
@@ -6,6 +7,7 @@ export default function AddProduct({ onAdd }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [stock, setStock] = useState("");
   const [thumbnail, setThumbnail] = useState(null);
   const [additionalImages, setAdditionalImages] = useState([]);
 
@@ -56,6 +58,7 @@ export default function AddProduct({ onAdd }) {
       title,
       description,
       price: parseFloat(price),
+      stock: parseInt(stock),
       thumbnail,
       images: [thumbnail, ...additionalImages],
     };
@@ -64,6 +67,7 @@ export default function AddProduct({ onAdd }) {
     setTitle("");
     setDescription("");
     setPrice("");
+    setStock("");
     setThumbnail(null);
     setAdditionalImages([]);
   };
@@ -92,6 +96,14 @@ export default function AddProduct({ onAdd }) {
           placeholder="Price"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
+          required
+        />
+
+        <input
+          type="number"
+          placeholder="Stock"
+          value={stock}
+          onChange={(e) => setStock(e.target.value)}
           required
         />
 

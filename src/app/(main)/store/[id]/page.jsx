@@ -13,6 +13,7 @@ import ProductDetails from "@/Components/ProductDetails/ProductDetails";
 import "./singleproduct.css";
 
 export default function ProductDetail({ params }) {
+  console.log("params:", params)
   const { id } = params;
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);

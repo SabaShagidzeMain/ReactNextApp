@@ -107,6 +107,7 @@ export default function Store({ searchParams }) {
                 <ProductCard
                   title={product.title}
                   price={product.price}
+                  stock={product.stock}
                   image={product.thumbnail}
                   desc={product.description}
                 />

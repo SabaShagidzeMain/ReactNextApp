@@ -1,11 +1,10 @@
 /* eslint-disable react/prop-types */
-"use client"
+"use client";
 
 import "./ProductCard.css";
 import { FaCartArrowDown } from "react-icons/fa6";
 
-const ProductCard = ({ title, price, image, description }) => {
-
+const ProductCard = ({ title, price, image, description, stock }) => {
   return (
     <div className="productcard">
       <div className="productcard-image-wrapper">
@@ -20,6 +19,7 @@ const ProductCard = ({ title, price, image, description }) => {
         <h3 className="productcard-info">{description}</h3>
         <div className="productcard-bot-wrapper">
           <p className="productcard-price">{price}</p>
+          <p className="productcard-stock">Stock: {stock}</p>
           <button className="productcard-button">
             <FaCartArrowDown />
           </button>
