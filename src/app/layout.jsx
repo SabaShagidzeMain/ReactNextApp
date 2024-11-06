@@ -1,17 +1,15 @@
 import "./globals.css";
-
-export const metadata = {
-  title: "Gaming App",
-  description: "Web site created with Next.js.",
-};
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 
 /* eslint-disable react/prop-types */
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        <div id="root">{children}</div>
-      </body>
+      <UserProvider>
+        <body>
+          <div id="root">{children}</div>
+        </body>
+      </UserProvider>
     </html>
   );
 }

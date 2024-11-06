@@ -1,61 +1,55 @@
 "use client";
+import { useUser } from "@auth0/nextjs-auth0/client"; // Use nextjs-auth0 client-side hook
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import "./login.css";
-import { LoginUser } from "@/Utilities/LoginUser";
 
 function Authorization() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const { user, error, isLoading } = useUser(); // `useUser` hook from @auth0/nextjs-auth0/client
   const router = useRouter();
+  const [isError, setIsError] = useState(false);
 
-  const handleSubmit = async (e) => {
+  // If the user is authenticated, redirect to the home page
+  useEffect(() => {
+    if (user) {
+      router.push("/"); // Redirect if authenticated
+    }
+  }, [user, router]);
+
+  // Handle login click
+  const handleLogin = async (e) => {
     e.preventDefault();
-
-    const { response, data } = await LoginUser(username, password);
-
-    if (response.ok && data.accessToken) {
-      localStorage.setItem("accessToken", data.accessToken);
-      router.push("/");
-    } else {
-      alert(`Login failed: Invalid username or password`);
+    try {
+      window.location.href = "/api/auth/login"; // Redirecting to the API route to handle login
+    } catch (err) {
+      console.error("Login failed:", err);
+      setIsError(true);
     }
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      router.push("/");
-    }
-  }, [router]);
+  // Loading or error handling
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="error-message">
+        <h2>There was an error during login. Please try again.</h2>
+      </div>
+    );
+  }
 
   return (
     <section className="login-wrapper">
       <div className="bc-image">
-        <form className="form" onSubmit={handleSubmit}>
+        <form className="form" onSubmit={handleLogin}>
           <h1>Log In</h1>
-          <div>
-            <input
-              className="input"
-              type="text"
-              value={username}
-              required
-              placeholder="Enter Your Username..."
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div>
-            <input
-              className="input"
-              type="password"
-              value={password}
-              required
-              placeholder="Enter Your Password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+          {isError && (
+            <div className="error-message">Login failed. Please try again.</div>
+          )}
           <button className="login-button" type="submit">
-            Log In
+            Log In with Auth0
           </button>
         </form>
       </div>

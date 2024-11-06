@@ -1,16 +1,12 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import LogOutBtn from "../LogOutBtn/LogOutBtn";
-import { fetchUserDetails } from "@/Utilities/fetchUserDetails";
+import { useUser } from "@auth0/nextjs-auth0/client"; // Use `useUser` from nextjs-auth0
 import Link from "next/link";
 import "./Header.css";
 
 const Header = () => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { user, isLoading } = useUser(); // Use `useUser` to get user details and authentication status
 
   const navRef = useRef();
 
@@ -18,21 +14,18 @@ const Header = () => {
     navRef.current.classList.toggle("responsive_nav");
   };
 
+  // Redirect if user is not authenticated
   useEffect(() => {
-    async function loadUserDetails() {
-      try {
-        const userData = await fetchUserDetails();
-        setUser(userData);
-      } catch (err) {
-        setError("Failed to load user details.");
-        console.error(error, err);
-      } finally {
-        setLoading(false);
-      }
+    if (!isLoading && !user) {
+      // You can redirect to the login page if needed
+      window.location.href = "/login"; // Adjust the login path based on your routing
     }
+  }, [user, isLoading]);
 
-    loadUserDetails();
-  }, []);
+  const handleLogout = () => {
+    // Log out the user and redirect them to the home page
+    window.location.href = "/api/auth/logout"; // Use the logout API from nextjs-auth0
+  };
 
   return (
     <header className="header">
@@ -55,7 +48,7 @@ const Header = () => {
             Store
           </Link>
           <Link href="/profile">
-            {loading ? (
+            {isLoading ? (
               <img
                 src="/assets/profile-icon.png"
                 alt="profile icon"
@@ -64,14 +57,18 @@ const Header = () => {
             ) : (
               user && (
                 <img
-                  src={user.image}
-                  alt={user.name}
+                  src={user?.picture} // Auth0 provides `user.picture`
+                  alt={user?.name} // Auth0 provides `user.name`
                   className="profile-image"
                 />
               )
             )}
           </Link>
-          <LogOutBtn />
+          {user && (
+            <button className="logout-btn" onClick={handleLogout}>
+              Log Out
+            </button>
+          )}
         </div>
         <button className="nav-btn nav-close-btn" onClick={showNavbar}>
           <FaTimes />
