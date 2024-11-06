@@ -6,7 +6,7 @@ import { FaCartArrowDown } from "react-icons/fa6";
 
 const ProductCard = ({ title, price, image, description, stock }) => {
   return (
-    <div className="productcard">
+    <div className="productcard text-custom-gray dark:bg-custom-gray dark:text-white">
       <div className="productcard-image-wrapper">
         <img
           src={image}

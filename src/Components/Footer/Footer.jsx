@@ -2,16 +2,20 @@ import "./Footer.css";
 
 const Footer = () => {
   return (
-    <footer className="footer">
+    <footer className="footer dark:bg-custom-gray">
       <div className="footer-wrapper">
         <div className="footer-left">
-          <p>I love Videogames</p>
+          <p className="text-custom-gray dark:text-white">I love Videogames</p>
         </div>
         <div className="footer-mid">
-          <p>All Rights Reserved @2023</p>
+          <p className="text-custom-gray dark:text-white">
+            All Rights Reserved @2023
+          </p>
         </div>
         <div className="footer-right">
-          <p>Contact: Contact.Sabashagidze@Gmail.com</p>
+          <p className="text-custom-gray dark:text-white">
+            Contact: Contact.Sabashagidze@Gmail.com
+          </p>
         </div>
       </div>
     </footer>

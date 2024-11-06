@@ -31,12 +31,12 @@ export default function Profile() {
 
   return (
     <main className="main user-main">
-      <div className="user-wrapper">
+      <div className="user-wrapper bg-white dark:bg-custom-gray">
         <div className="user-picture-wrapper">
           {/* User image */}
           <img className="user-image" src={user?.picture} alt={user?.name} />
         </div>
-        <div className="user-info-wrapper">
+        <div className="user-info-wrapper dark:text-white dark:bg-custom-gray">
           <div className="user-info-inner">
             <div className="user-info-col">
               <div className="user-info-block">

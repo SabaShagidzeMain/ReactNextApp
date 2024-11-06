@@ -19,7 +19,6 @@
 }
 
 .main-right-wrapper {
-  background: linear-gradient(45deg, #fff 20%, #310a0b);
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -41,7 +40,6 @@
   width: 12rem;
   height: 3rem;
   border-radius: 10px;
-  background-color: #272727;
   border: #272727;
   color: #fff;
   font-size: 1.2rem;

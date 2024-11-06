@@ -2,6 +2,7 @@
 import { useRef, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useUser } from "@auth0/nextjs-auth0/client"; // Use `useUser` from nextjs-auth0
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import Link from "next/link";
 import "./Header.css";
 
@@ -28,23 +29,35 @@ const Header = () => {
   };
 
   return (
-    <header className="header">
-      <h2>Game Store</h2>
-      <nav ref={navRef}>
+    <header className="header dark:bg-custom-gray">
+      <h2 className="text-custom-gray dark:text-white">Game Store</h2>
+      <nav ref={navRef} className="text-custom-gray dark:bg-custom-gray">
         <div className="link-wrapper">
-          <Link href="/" className="nav-link">
+          <Link href="/" className="nav-link text-custom-gray dark:text-white">
             Home
           </Link>
-          <Link href="/about" className="nav-link">
+          <Link
+            href="/about"
+            className="nav-link text-custom-gray dark:text-white"
+          >
             About
           </Link>
-          <Link href="/contact" className="nav-link">
+          <Link
+            href="/contact"
+            className="nav-link text-custom-gray dark:text-white"
+          >
             Contact
           </Link>
-          <Link href="/blog" className="nav-link">
+          <Link
+            href="/blog"
+            className="nav-link text-custom-gray dark:text-white"
+          >
             Blog
           </Link>
-          <Link href="/store" className="nav-link">
+          <Link
+            href="/store"
+            className="nav-link text-custom-gray dark:text-white"
+          >
             Store
           </Link>
           <Link href="/profile">
@@ -57,8 +70,8 @@ const Header = () => {
             ) : (
               user && (
                 <img
-                  src={user?.picture} // Auth0 provides `user.picture`
-                  alt={user?.name} // Auth0 provides `user.name`
+                  src={user?.picture}
+                  alt={user?.name}
                   className="profile-image"
                 />
               )
@@ -69,6 +82,7 @@ const Header = () => {
               Log Out
             </button>
           )}
+          <ThemeToggle />
         </div>
         <button className="nav-btn nav-close-btn" onClick={showNavbar}>
           <FaTimes />

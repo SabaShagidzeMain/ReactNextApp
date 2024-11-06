@@ -86,7 +86,7 @@ export default function Store({ searchParams }) {
             ></div>
 
             {/* Modal Content */}
-            <div className="modal">
+            <div className="modal dark:bg-custom-gray">
               <div className="modal-content">
                 <span
                   className="close-modal"

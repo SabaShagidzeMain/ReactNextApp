@@ -52,15 +52,18 @@ export default function Blog() {
           ) : (
             posts.map((post) => (
               <div className="blog-list" key={post.id}>
-                <div className="blog-content">
+                <div className="blog-content bg-white dark:bg-custom-gray dark:text-white">
                   <h2>{post.title}</h2>
                   <p>{post.body}</p>
                   <div className="buttons-box">
-                    <Link className="blog-link Link" href={`/blog/${post.id}`}>
+                    <Link
+                      className="blog-link Link dark:text-white"
+                      href={`/blog/${post.id}`}
+                    >
                       Open Post
                     </Link>
                     <button
-                      className="delete-button"
+                      className="delete-button dark:bg-white dark:text-custom-gray dark:hover:text-white"
                       onClick={() => confirmDelete(post.id)}
                     >
                       DELETE

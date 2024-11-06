@@ -31,12 +31,19 @@ export default function AddBlog({ addNewPost }) {
 
   return (
     <>
-      <header className="addPost-header">
-        <button className="show-form-button" onClick={() => setIsVisible(!isVisible)}>
+      <header className="addPost-header dark:bg-custom-gray">
+        <button
+          className="show-form-button"
+          onClick={() => setIsVisible(!isVisible)}
+        >
           {isVisible ? "Close" : "Add Post"}
         </button>
       </header>
-      <div className={`form-container ${isVisible ? "visible" : "hidden"}`}>
+      <div
+        className={`form-container ${
+          isVisible ? "visible" : "hidden"
+        } dark:bg-custom-gray`}
+      >
         <form onSubmit={handleSubmit}>
           <input
             type="text"

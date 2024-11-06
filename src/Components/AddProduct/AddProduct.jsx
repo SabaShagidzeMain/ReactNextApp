@@ -73,7 +73,7 @@ export default function AddProduct({ onAdd }) {
   };
 
   return (
-    <div className="add-product">
+    <div className="add-product dark:bg-custom-gray dark:text-white">
       <h2>Add New Product</h2>
       <form onSubmit={handleSubmit}>
         <input

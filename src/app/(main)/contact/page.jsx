@@ -5,7 +5,10 @@ const page = () => {
     <>
       <main className="main contact-main">
         <div className="contactWrapper">
-          <form action="#">
+          <form
+            action="#"
+            className="bg-white dark:bg-custom-gray dark:text-white"
+          >
             <div className="input-container">
               <label htmlFor="fname">First Name</label>
               <input
@@ -44,7 +47,7 @@ const page = () => {
               />
             </div>
 
-            <input type="submit" value="submit" />
+            <input type="submit" value="submit" className="dark:bg-white dark:text-custom-gray" />
           </form>
         </div>
       </main>
